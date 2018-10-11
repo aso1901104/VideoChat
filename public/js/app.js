@@ -39970,6 +39970,7 @@ var App = function (_Component) {
 
         _this.mediaHandler = new __WEBPACK_IMPORTED_MODULE_1__MediaHandler__["a" /* default */]();
 
+        // this.setupPusher = this.setupPusher.bind(this);
         _this.setupPusher();
 
         _this.callTo = _this.callTo.bind(_this);
@@ -39986,7 +39987,6 @@ var App = function (_Component) {
             this.mediaHandler.getPermissions().then(function (stream) {
                 _this2.setState({ hasMedia: true });
                 _this2.user.stream = stream;
-                console.log('me', stream);
 
                 try {
                     _this2.myVideo.srcObject = stream;
@@ -40002,8 +40002,6 @@ var App = function (_Component) {
         value: function setupPusher() {
             var _this3 = this;
 
-            // Pusher.logToConsole = true;
-
             this.pusher = new __WEBPACK_IMPORTED_MODULE_2_pusher_js___default.a(APP_KEY, {
                 authEndpoint: "/pusher/auth",
                 cluster: APP_CLUSTER,
@@ -40014,14 +40012,13 @@ var App = function (_Component) {
                     }
                 }
             });
-
+            console.log(this.pusher);
             this.channel = this.pusher.subscribe("presence-video-channel");
-
+            console.log(this.channel);
             this.channel.bind("client-signal-" + this.user.id, function (signal) {
                 var peer = _this3.peers[signal.userId];
-
                 // if peer is not already exists, its an incoming call.
-                if (peer === undefined) {
+                if (peer == undefined) {
                     _this3.setState({
                         otherUserId: signal.userId
                     });
@@ -40034,11 +40031,10 @@ var App = function (_Component) {
         }
     }, {
         key: "startPeer",
-        value: function startPeer(peerId) {
+        value: function startPeer(peerId, isInitiator) {
             var _this4 = this;
 
-            var isInitiator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
+            console.log('asdfasdf');
             var peer = new __WEBPACK_IMPORTED_MODULE_3_simple_peer___default.a({
                 initiator: isInitiator,
                 stream: this.user.stream,
@@ -40055,12 +40051,12 @@ var App = function (_Component) {
             });
 
             peer.on("stream", function (stream) {
-                console.log('user', stream);
                 try {
                     _this4.userVideo.srcObject = stream;
                 } catch (e) {
                     _this4.userVideo.src = URL.createObjectURL(stream);
                 }
+
                 _this4.userVideo.play();
             });
 
@@ -40078,7 +40074,7 @@ var App = function (_Component) {
     }, {
         key: "callTo",
         value: function callTo(userId) {
-            this.peers[userId] = this.startPeer(userId);
+            this.peers[userId] = this.startPeer(userId, true);
         }
     }, {
         key: "render",
@@ -40100,7 +40096,7 @@ var App = function (_Component) {
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 "div",
                                 { className: "card-header" },
-                                "My Video"
+                                "My Video\u3060\u3088\u306D\u30FCaaa\u77E2\u7530\u3042\u3042\u3042\u3042\u3042"
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 "div",
@@ -49063,8 +49059,9 @@ function Peer (opts) {
   self.constraints = self._transformConstraints(opts.constraints || Peer.constraints)
   self.offerConstraints = self._transformConstraints(opts.offerConstraints || {})
   self.answerConstraints = self._transformConstraints(opts.answerConstraints || {})
+  self.reconnectTimer = opts.reconnectTimer || false
   self.sdpTransform = opts.sdpTransform || function (sdp) { return sdp }
-  self.streams = opts.streams || (opts.stream ? [opts.stream] : []) // support old "stream" option
+  self.stream = opts.stream || false
   self.trickle = opts.trickle !== undefined ? opts.trickle : true
 
   self.destroyed = false
@@ -49082,9 +49079,9 @@ function Peer (opts) {
 
   if (!self._wrtc) {
     if (typeof window === 'undefined') {
-      throw makeError('No WebRTC support: Specify `opts.wrtc` option in this environment', 'ERR_WEBRTC_SUPPORT')
+      throw new Error('No WebRTC support: Specify `opts.wrtc` option in this environment')
     } else {
-      throw makeError('No WebRTC support: Not a supported browser', 'ERR_WEBRTC_SUPPORT')
+      throw new Error('No WebRTC support: Not a supported browser')
     }
   }
 
@@ -49093,24 +49090,18 @@ function Peer (opts) {
   self._iceComplete = false // ice candidate trickle done (got null candidate)
   self._channel = null
   self._pendingCandidates = []
-
-  self._isNegotiating = false // is this peer waiting for negotiation to complete?
-  self._batchedNegotiation = false // batch synchronous negotiations
-  self._queuedNegotiation = false // is there a queued negotiation request?
-  self._sendersAwaitingStable = []
-  self._senderMap = new WeakMap()
-
-  self._remoteTracks = []
-  self._remoteStreams = []
+  self._previousStreams = []
 
   self._chunk = null
   self._cb = null
   self._interval = null
+  self._reconnectTimeout = null
 
   self._pc = new (self._wrtc.RTCPeerConnection)(self.config, self.constraints)
 
   // We prefer feature detection whenever possible, but sometimes that's not
   // possible for certain implementations.
+  self._isWrtc = Array.isArray(self._pc.RTCIceConnectionStates)
   self._isReactNativeWebrtc = typeof self._pc._peerConnectionId === 'number'
 
   self._pc.oniceconnectionstatechange = function () {
@@ -49130,9 +49121,14 @@ function Peer (opts) {
   // - onconnectionstatechange
   // - onicecandidateerror
   // - onfingerprintfailure
-  // - onnegotiationneeded
 
   if (self.initiator) {
+    var createdOffer = false
+    self._pc.onnegotiationneeded = function () {
+      if (!createdOffer) self._createOffer()
+      createdOffer = true
+    }
+
     self._setupData({
       channel: self._pc.createDataChannel(self.channelName, self.channelConfig)
     })
@@ -49143,18 +49139,26 @@ function Peer (opts) {
   }
 
   if ('addTrack' in self._pc) {
-    if (self.streams) {
-      self.streams.forEach(function (stream) {
-        self.addStream(stream)
+    // WebRTC Spec, Firefox
+    if (self.stream) {
+      self.stream.getTracks().forEach(function (track) {
+        self._pc.addTrack(track, self.stream)
       })
     }
     self._pc.ontrack = function (event) {
       self._onTrack(event)
     }
+  } else {
+    // Chrome, etc. This can be removed once all browsers support `ontrack`
+    if (self.stream) self._pc.addStream(self.stream)
+    self._pc.onaddstream = function (event) {
+      self._onAddStream(event)
+    }
   }
 
-  if (self.initiator) {
-    self._needsNegotiation()
+  // HACK: wrtc doesn't fire the 'negotionneeded' event
+  if (self.initiator && self._isWrtc) {
+    self._pc.onnegotiationneeded()
   }
 
   self._onFinishBound = function () {
@@ -49197,7 +49201,7 @@ Peer.prototype.address = function () {
 
 Peer.prototype.signal = function (data) {
   var self = this
-  if (self.destroyed) throw makeError('cannot signal after peer is destroyed', 'ERR_SIGNALING')
+  if (self.destroyed) throw new Error('cannot signal after peer is destroyed')
   if (typeof data === 'string') {
     try {
       data = JSON.parse(data)
@@ -49207,10 +49211,6 @@ Peer.prototype.signal = function (data) {
   }
   self._debug('signal()')
 
-  if (data.renegotiate) {
-    self._debug('got request to renegotiate')
-    self._needsNegotiation()
-  }
   if (data.candidate) {
     if (self._pc.remoteDescription && self._pc.remoteDescription.type) self._addIceCandidate(data.candidate)
     else self._pendingCandidates.push(data.candidate)
@@ -49225,10 +49225,10 @@ Peer.prototype.signal = function (data) {
       self._pendingCandidates = []
 
       if (self._pc.remoteDescription.type === 'offer') self._createAnswer()
-    }, function (err) { self.destroy(makeError(err, 'ERR_SET_REMOTE_DESCRIPTION')) })
+    }, function (err) { self.destroy(err) })
   }
-  if (!data.sdp && !data.candidate && !data.renegotiate) {
-    self.destroy(makeError('signal() called with invalid signal data', 'ERR_SIGNALING'))
+  if (!data.sdp && !data.candidate) {
+    self.destroy(new Error('signal() called with invalid signal data'))
   }
 }
 
@@ -49238,124 +49238,20 @@ Peer.prototype._addIceCandidate = function (candidate) {
     self._pc.addIceCandidate(
       new self._wrtc.RTCIceCandidate(candidate),
       noop,
-      function (err) { self.destroy(makeError(err, 'ERR_ADD_ICE_CANDIDATE')) }
+      function (err) { self.destroy(err) }
     )
   } catch (err) {
-    self.destroy(makeError('error adding candidate: ' + err.message, 'ERR_ADD_ICE_CANDIDATE'))
+    self.destroy(new Error('error adding candidate: ' + err.message))
   }
 }
 
 /**
  * Send text/binary data to the remote peer.
- * @param {ArrayBufferView|ArrayBuffer|Buffer|string|Blob} chunk
+ * @param {TypedArrayView|ArrayBuffer|Buffer|string|Blob|Object} chunk
  */
 Peer.prototype.send = function (chunk) {
   var self = this
   self._channel.send(chunk)
-}
-
-/**
- * Add a MediaStream to the connection.
- * @param {MediaStream} stream
- */
-Peer.prototype.addStream = function (stream) {
-  var self = this
-
-  self._debug('addStream()')
-
-  stream.getTracks().forEach(function (track) {
-    self.addTrack(track, stream)
-  })
-}
-
-/**
- * Add a MediaStreamTrack to the connection.
- * @param {MediaStreamTrack} track
- * @param {MediaStream} stream
- */
-Peer.prototype.addTrack = function (track, stream) {
-  var self = this
-
-  self._debug('addTrack()')
-
-  var sender = self._pc.addTrack(track, stream)
-  var submap = self._senderMap.get(track) || new WeakMap() // nested WeakMaps map [track, stream] to sender
-  submap.set(stream, sender)
-  self._senderMap.set(track, submap)
-  self._needsNegotiation()
-}
-
-/**
- * Remove a MediaStreamTrack from the connection.
- * @param {MediaStreamTrack} track
- * @param {MediaStream} stream
- */
-Peer.prototype.removeTrack = function (track, stream) {
-  var self = this
-
-  self._debug('removeSender()')
-
-  var submap = self._senderMap.get(track)
-  var sender = submap ? submap.get(stream) : null
-  if (!sender) {
-    self.destroy(new Error('Cannot remove track that was never added.'))
-  }
-  try {
-    self._pc.removeTrack(sender)
-  } catch (err) {
-    if (err.name === 'NS_ERROR_UNEXPECTED') {
-      self._sendersAwaitingStable.push(sender) // HACK: Firefox must wait until (signalingState === stable) https://bugzilla.mozilla.org/show_bug.cgi?id=1133874
-    } else {
-      self.destroy(err)
-    }
-  }
-}
-
-/**
- * Remove a MediaStream from the connection.
- * @param {MediaStream} stream
- */
-Peer.prototype.removeStream = function (stream) {
-  var self = this
-
-  self._debug('removeSenders()')
-
-  stream.getTracks().forEach(function (track) {
-    self.removeTrack(track, stream)
-  })
-}
-
-Peer.prototype._needsNegotiation = function () {
-  var self = this
-
-  self._debug('_needsNegotiation')
-  if (self._batchedNegotiation) return // batch synchronous renegotiations
-  self._batchedNegotiation = true
-  setTimeout(function () {
-    self._batchedNegotiation = false
-    self._debug('starting batched negotiation')
-    self.negotiate()
-  }, 0)
-}
-
-Peer.prototype.negotiate = function () {
-  var self = this
-
-  if (self.initiator) {
-    if (self._isNegotiating) {
-      self._queuedNegotiation = true
-      self._debug('already negotiating, queueing')
-    } else {
-      self._debug('start negotiation')
-      self._createOffer()
-    }
-  } else {
-    self._debug('requesting negotiation from initiator')
-    self.emit('signal', { // request initiator to renegotiate
-      renegotiate: true
-    })
-  }
-  self._isNegotiating = true
 }
 
 // TODO: Delete this method once readable-stream is updated to contain a default
@@ -49381,28 +49277,18 @@ Peer.prototype._destroy = function (err, cb) {
   self.connected = false
   self._pcReady = false
   self._channelReady = false
-  self._remoteTracks = null
-  self._remoteStreams = null
-  self._senderMap = null
+  self._previousStreams = null
 
   clearInterval(self._interval)
+  clearTimeout(self._reconnectTimeout)
   self._interval = null
+  self._reconnectTimeout = null
   self._chunk = null
   self._cb = null
 
   if (self._onFinishBound) self.removeListener('finish', self._onFinishBound)
   self._onFinishBound = null
 
-  if (self._channel) {
-    try {
-      self._channel.close()
-    } catch (err) {}
-
-    self._channel.onmessage = null
-    self._channel.onopen = null
-    self._channel.onclose = null
-    self._channel.onerror = null
-  }
   if (self._pc) {
     try {
       self._pc.close()
@@ -49414,8 +49300,22 @@ Peer.prototype._destroy = function (err, cb) {
     self._pc.onicecandidate = null
     if ('addTrack' in self._pc) {
       self._pc.ontrack = null
+    } else {
+      self._pc.onaddstream = null
     }
+    self._pc.onnegotiationneeded = null
     self._pc.ondatachannel = null
+  }
+
+  if (self._channel) {
+    try {
+      self._channel.close()
+    } catch (err) {}
+
+    self._channel.onmessage = null
+    self._channel.onopen = null
+    self._channel.onclose = null
+    self._channel.onerror = null
   }
   self._pc = null
   self._channel = null
@@ -49431,7 +49331,7 @@ Peer.prototype._setupData = function (event) {
     // In some situations `pc.createDataChannel()` returns `undefined` (in wrtc),
     // which is invalid behavior. Handle it gracefully.
     // See: https://github.com/feross/simple-peer/issues/163
-    return self.destroy(makeError('Data channel event is missing `channel` property', 'ERR_DATA_CHANNEL'))
+    return self.destroy(new Error('Data channel event is missing `channel` property'))
   }
 
   self._channel = event.channel
@@ -49456,7 +49356,7 @@ Peer.prototype._setupData = function (event) {
     self._onChannelClose()
   }
   self._channel.onerror = function (err) {
-    self.destroy(makeError(err, 'ERR_DATA_CHANNEL'))
+    self.destroy(err)
   }
 }
 
@@ -49464,13 +49364,13 @@ Peer.prototype._read = function () {}
 
 Peer.prototype._write = function (chunk, encoding, cb) {
   var self = this
-  if (self.destroyed) return cb(makeError('cannot write after peer is destroyed', 'ERR_DATA_CHANNEL'))
+  if (self.destroyed) return cb(new Error('cannot write after peer is destroyed'))
 
   if (self.connected) {
     try {
       self.send(chunk)
     } catch (err) {
-      return self.destroy(makeError(err, 'ERR_DATA_CHANNEL'))
+      return self.destroy(err)
     }
     if (self._channel.bufferedAmount > MAX_BUFFERED_AMOUNT) {
       self._debug('start backpressure: bufferedAmount %d', self._channel.bufferedAmount)
@@ -49516,14 +49416,13 @@ Peer.prototype._createOffer = function () {
     self._pc.setLocalDescription(offer, onSuccess, onError)
 
     function onSuccess () {
-      self._debug('createOffer success')
       if (self.destroyed) return
       if (self.trickle || self._iceComplete) sendOffer()
       else self.once('_iceComplete', sendOffer) // wait for candidates
     }
 
     function onError (err) {
-      self.destroy(makeError(err, 'ERR_SET_LOCAL_DESCRIPTION'))
+      self.destroy(err)
     }
 
     function sendOffer () {
@@ -49534,7 +49433,7 @@ Peer.prototype._createOffer = function () {
         sdp: signal.sdp
       })
     }
-  }, function (err) { self.destroy(makeError(err, 'ERR_CREATE_OFFER')) }, self.offerConstraints)
+  }, function (err) { self.destroy(err) }, self.offerConstraints)
 }
 
 Peer.prototype._createAnswer = function () {
@@ -49553,7 +49452,7 @@ Peer.prototype._createAnswer = function () {
     }
 
     function onError (err) {
-      self.destroy(makeError(err, 'ERR_SET_LOCAL_DESCRIPTION'))
+      self.destroy(err)
     }
 
     function sendAnswer () {
@@ -49564,7 +49463,7 @@ Peer.prototype._createAnswer = function () {
         sdp: signal.sdp
       })
     }
-  }, function (err) { self.destroy(makeError(err, 'ERR_CREATE_ANSWER')) }, self.answerConstraints)
+  }, function (err) { self.destroy(err) }, self.answerConstraints)
 }
 
 Peer.prototype._onIceStateChange = function () {
@@ -49581,14 +49480,26 @@ Peer.prototype._onIceStateChange = function () {
   self.emit('iceStateChange', iceConnectionState, iceGatheringState)
 
   if (iceConnectionState === 'connected' || iceConnectionState === 'completed') {
+    clearTimeout(self._reconnectTimeout)
     self._pcReady = true
     self._maybeReady()
   }
+  if (iceConnectionState === 'disconnected') {
+    if (self.reconnectTimer) {
+      // If user has set `opt.reconnectTimer`, allow time for ICE to attempt a reconnect
+      clearTimeout(self._reconnectTimeout)
+      self._reconnectTimeout = setTimeout(function () {
+        self.destroy()
+      }, self.reconnectTimer)
+    } else {
+      self.destroy()
+    }
+  }
   if (iceConnectionState === 'failed') {
-    self.destroy(makeError('Ice connection failed.', 'ERR_ICE_CONNECTION_FAILURE'))
+    self.destroy(new Error('Ice connection failed.'))
   }
   if (iceConnectionState === 'closed') {
-    self.destroy(new Error('Ice connection closed.'))
+    self.destroy()
   }
 }
 
@@ -49680,7 +49591,7 @@ Peer.prototype._maybeReady = function () {
 
       items.forEach(function (item) {
         // Spec-compliant
-        if (item.type === 'transport' && item.selectedCandidatePairId) {
+        if (item.type === 'transport') {
           setSelectedCandidatePair(candidatePairs[item.selectedCandidatePairId])
         }
 
@@ -49751,7 +49662,7 @@ Peer.prototype._maybeReady = function () {
         try {
           self.send(self._chunk)
         } catch (err) {
-          return self.destroy(makeError(err, 'ERR_DATA_CHANNEL'))
+          return self.destroy(err)
         }
         self._chunk = null
         self._debug('sent chunk from "write before connect"')
@@ -49786,28 +49697,6 @@ Peer.prototype._onInterval = function () {
 Peer.prototype._onSignalingStateChange = function () {
   var self = this
   if (self.destroyed) return
-
-  if (self._pc.signalingState === 'stable') {
-    self._isNegotiating = false
-
-    // HACK: Firefox doesn't yet support removing tracks when signalingState !== 'stable'
-    self._debug('flushing sender queue', self._sendersAwaitingStable)
-    self._sendersAwaitingStable.forEach(function (sender) {
-      self.removeTrack(sender)
-      self._queuedNegotiation = true
-    })
-    self._sendersAwaitingStable = []
-
-    if (self._queuedNegotiation) {
-      self._debug('flushing negotiation queue')
-      self._queuedNegotiation = false
-      self._needsNegotiation() // negotiate again
-    }
-
-    self._debug('negotiate')
-    self.emit('negotiate')
-  }
-
   self._debug('signalingStateChange %s', self._pc.signalingState)
   self.emit('signalingStateChange', self._pc.signalingState)
 }
@@ -49861,28 +49750,21 @@ Peer.prototype._onChannelClose = function () {
   self.destroy()
 }
 
+Peer.prototype._onAddStream = function (event) {
+  var self = this
+  if (self.destroyed) return
+  self._debug('on add stream')
+  self.emit('stream', event.stream)
+}
+
 Peer.prototype._onTrack = function (event) {
   var self = this
   if (self.destroyed) return
-
-  event.streams.forEach(function (eventStream) {
-    self._debug('on track')
-    self.emit('track', event.track, eventStream)
-
-    self._remoteTracks.push({
-      track: event.track,
-      stream: eventStream
-    })
-
-    if (self._remoteStreams.some(function (remoteStream) {
-      return remoteStream.id === eventStream.id
-    })) return // Only fire one 'stream' event, even though there may be multiple tracks per stream
-
-    self._remoteStreams.push(eventStream)
-    setTimeout(function () {
-      self.emit('stream', eventStream) // ensure all tracks have been added
-    }, 0)
-  })
+  self._debug('on track')
+  var id = event.streams[0].id
+  if (self._previousStreams.indexOf(id) !== -1) return // Only fire one 'stream' event, even though there may be multiple tracks per stream
+  self._previousStreams.push(id)
+  self.emit('stream', event.streams[0])
 }
 
 Peer.prototype._debug = function () {
@@ -49939,12 +49821,6 @@ Peer.prototype._transformConstraints = function (constraints) {
   }
 
   return constraints
-}
-
-function makeError (message, code) {
-  var err = new Error(message)
-  err.code = code
-  return err
 }
 
 function noop () {}

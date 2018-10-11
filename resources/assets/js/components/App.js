@@ -21,6 +21,7 @@ class App extends Component {
 
         this.mediaHandler = new MediaHandler();
 
+        // this.setupPusher = this.setupPusher.bind(this);
         this.setupPusher();
 
         this.callTo = this.callTo.bind(this);
@@ -29,10 +30,10 @@ class App extends Component {
     }
 
     componentWillMount() {
+
         this.mediaHandler.getPermissions().then(stream => {
             this.setState({hasMedia: true});
             this.user.stream = stream;
-            console.log('me', stream);
 
             try {
                 this.myVideo.srcObject = stream;
@@ -45,8 +46,6 @@ class App extends Component {
     }
 
     setupPusher() {
-        // Pusher.logToConsole = true;
-
         this.pusher = new Pusher(APP_KEY, {
             authEndpoint: "/pusher/auth",
             cluster: APP_CLUSTER,
@@ -57,14 +56,13 @@ class App extends Component {
                 },
             },
         });
-
+        console.log(this.pusher);
         this.channel = this.pusher.subscribe("presence-video-channel");
-
-        this.channel.bind(`client-signal-${this.user.id}`, signal => {
+      console.log(this.channel);
+        this.channel.bind(`client-signal-${this.user.id}`, (signal) => {
             let peer = this.peers[signal.userId];
-
             // if peer is not already exists, its an incoming call.
-            if (peer === undefined) {
+            if (peer == undefined) {
                 this.setState({
                     otherUserId: signal.userId,
                 });
@@ -76,7 +74,8 @@ class App extends Component {
         });
     }
 
-    startPeer(peerId, isInitiator = true) {
+    startPeer(peerId, isInitiator) {
+        console.log('asdfasdf');
         const peer = new Peer({
             initiator: isInitiator,
             stream: this.user.stream,
@@ -93,12 +92,13 @@ class App extends Component {
         });
 
         peer.on("stream", (stream) => {
-            console.log('user', stream);
             try {
                 this.userVideo.srcObject = stream;
             } catch (e) {
                 this.userVideo.src = URL.createObjectURL(stream);
+
             }
+
             this.userVideo.play();
         });
 
@@ -116,7 +116,7 @@ class App extends Component {
     }
 
     callTo(userId) {
-        this.peers[userId] = this.startPeer(userId);
+        this.peers[userId] = this.startPeer(userId, true);
     }
 
     render() {
@@ -125,7 +125,7 @@ class App extends Component {
                 <div className="row justify-content-center">
                     <div className="col-md-12">
                         <div className="card">
-                            <div className="card-header">My Video</div>
+                            <div className="card-header">My Videoだよねーaaa矢田あああああ</div>
 
                             <div className="card-body">
                                 {[1, 2, 3, 4].map(userId => {
@@ -135,6 +135,7 @@ class App extends Component {
                                 <div className="video-container">
                                     <video className="my-video" muted ref={ref => {this.myVideo = ref;}}/>
                                     <video className="user-video" ref={ref => {this.userVideo = ref;}}/>
+                                    {/*<video id="test" autoPlay className="user-video"/>*/}
                                 </div>
                             </div>
                         </div>
