@@ -39937,6 +39937,8 @@ exports.unstable_unsubscribe = unstable_unsubscribe;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_simple_peer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_simple_peer__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -39952,184 +39954,196 @@ var APP_KEY = "0391980ae2bd3ff7d6c6";
 var APP_CLUSTER = "ap2";
 
 var App = function (_Component) {
-    _inherits(App, _Component);
+  _inherits(App, _Component);
 
-    function App() {
-        _classCallCheck(this, App);
+  function App() {
+    _classCallCheck(this, App);
 
-        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 
-        _this.state = {
-            hasMedia: false,
-            otherUserId: null
-        };
+    _this.state = {
+      hasMedia: false,
+      otherUserId: null,
+      members: []
+    };
 
-        _this.user = window.user;
-        _this.user.stream = null;
-        _this.peers = {};
+    _this.user = window.user;
+    _this.user.stream = null;
+    _this.peers = {};
 
-        _this.mediaHandler = new __WEBPACK_IMPORTED_MODULE_1__MediaHandler__["a" /* default */]();
+    _this.mediaHandler = new __WEBPACK_IMPORTED_MODULE_1__MediaHandler__["a" /* default */]();
 
-        // this.setupPusher = this.setupPusher.bind(this);
-        _this.setupPusher();
+    _this.setupPusher = _this.setupPusher.bind(_this);
 
-        _this.callTo = _this.callTo.bind(_this);
-        _this.setupPusher = _this.setupPusher.bind(_this);
-        _this.startPeer = _this.startPeer.bind(_this);
-        return _this;
+    _this.callTo = _this.callTo.bind(_this);
+    _this.setupPusher = _this.setupPusher.bind(_this);
+    _this.startPeer = _this.startPeer.bind(_this);
+    return _this;
+  }
+
+  _createClass(App, [{
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      var _this2 = this;
+
+      this.setupPusher();
+      this.mediaHandler.getPermissions().then(function (stream) {
+        _this2.setState({ hasMedia: true });
+        _this2.user.stream = stream;
+
+        try {
+          _this2.myVideo.srcObject = stream;
+        } catch (e) {
+          _this2.myVideo.src = URL.createObjectURL(stream);
+        }
+
+        _this2.myVideo.play();
+      });
     }
+  }, {
+    key: "setupPusher",
+    value: function setupPusher() {
+      var _this3 = this;
 
-    _createClass(App, [{
-        key: "componentWillMount",
-        value: function componentWillMount() {
-            var _this2 = this;
-
-            this.mediaHandler.getPermissions().then(function (stream) {
-                _this2.setState({ hasMedia: true });
-                _this2.user.stream = stream;
-
-                try {
-                    _this2.myVideo.srcObject = stream;
-                } catch (e) {
-                    _this2.myVideo.src = URL.createObjectURL(stream);
-                }
-
-                _this2.myVideo.play();
-            });
+      this.pusher = new __WEBPACK_IMPORTED_MODULE_2_pusher_js___default.a(APP_KEY, {
+        authEndpoint: "/pusher/auth",
+        cluster: APP_CLUSTER,
+        auth: {
+          params: this.user.id,
+          headers: {
+            "X-CSRF-Token": window.csrfToken.content
+          }
         }
-    }, {
-        key: "setupPusher",
-        value: function setupPusher() {
-            var _this3 = this;
+      });
+      console.log(this.pusher);
+      this.channel = this.pusher.subscribe("presence-video-channel");
+      this.channel.bind('pusher:subscription_succeeded', function (members) {
+        // for example
+        var membersSet = [];
+        members.each(function (member) {
+          console.log(member);
+          membersSet = [{ id: member.id, name: member.info.name }].concat(_toConsumableArray(membersSet));
+        });
+        _this3.setState({
+          members: membersSet
+        });
+      });
+      this.channel.bind("client-signal-" + this.user.id, function (signal) {
+        var peer = _this3.peers[signal.userId];
+        // if peer is not already exists, its an incoming call.
+        if (peer == undefined) {
+          _this3.setState({
+            otherUserId: signal.userId
+          });
 
-            this.pusher = new __WEBPACK_IMPORTED_MODULE_2_pusher_js___default.a(APP_KEY, {
-                authEndpoint: "/pusher/auth",
-                cluster: APP_CLUSTER,
-                auth: {
-                    params: this.user.id,
-                    headers: {
-                        "X-CSRF-Token": window.csrfToken.content
-                    }
-                }
-            });
-            console.log(this.pusher);
-            this.channel = this.pusher.subscribe("presence-video-channel");
-            console.log(this.channel);
-            this.channel.bind("client-signal-" + this.user.id, function (signal) {
-                var peer = _this3.peers[signal.userId];
-                // if peer is not already exists, its an incoming call.
-                if (peer == undefined) {
-                    _this3.setState({
-                        otherUserId: signal.userId
-                    });
-
-                    peer = _this3.startPeer(signal.userId, false);
-                }
-
-                peer.signal(signal.data);
-            });
+          peer = _this3.startPeer(signal.userId, false);
         }
-    }, {
-        key: "startPeer",
-        value: function startPeer(peerId, isInitiator) {
-            var _this4 = this;
 
-            console.log('asdfasdf');
-            var peer = new __WEBPACK_IMPORTED_MODULE_3_simple_peer___default.a({
-                initiator: isInitiator,
-                stream: this.user.stream,
-                trickle: false
-            });
+        peer.signal(signal.data);
+      });
+    }
+  }, {
+    key: "startPeer",
+    value: function startPeer(peerId, isInitiator) {
+      var _this4 = this;
 
-            peer.on("signal", function (data) {
-                console.log(data);
-                _this4.channel.trigger("client-signal-" + peerId, {
-                    type: "signal",
-                    userId: _this4.user.id,
-                    data: data
-                });
-            });
+      console.log('押した');
+      var peer = new __WEBPACK_IMPORTED_MODULE_3_simple_peer___default.a({
+        initiator: isInitiator,
+        stream: this.user.stream,
+        trickle: false
+      });
 
-            peer.on("stream", function (stream) {
-                try {
-                    _this4.userVideo.srcObject = stream;
-                } catch (e) {
-                    _this4.userVideo.src = URL.createObjectURL(stream);
-                }
+      peer.on("signal", function (data) {
+        console.log(data);
+        _this4.channel.trigger("client-signal-" + peerId, {
+          type: "signal",
+          userId: _this4.user.id,
+          data: data
+        });
+      });
 
-                _this4.userVideo.play();
-            });
-
-            peer.on("close", function () {
-                var peer = _this4.peers[peerId];
-                if (peer !== undefined) {
-                    peer.destroy();
-                }
-
-                _this4.peers[peerId] = undefined;
-            });
-
-            return peer;
+      peer.on("stream", function (stream) {
+        try {
+          _this4.userVideo.srcObject = stream;
+        } catch (e) {
+          _this4.userVideo.src = URL.createObjectURL(stream);
         }
-    }, {
-        key: "callTo",
-        value: function callTo(userId) {
-            this.peers[userId] = this.startPeer(userId, true);
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            var _this5 = this;
 
-            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        _this4.userVideo.play();
+      });
+
+      peer.on("close", function () {
+        var peer = _this4.peers[peerId];
+        if (peer !== undefined) {
+          peer.destroy();
+        }
+
+        _this4.peers[peerId] = undefined;
+      });
+
+      return peer;
+    }
+  }, {
+    key: "callTo",
+    value: function callTo(userId) {
+      this.peers[userId] = this.startPeer(userId, true);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this5 = this;
+
+      console.log(this.state.members);
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "div",
+        { className: "container" },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "div",
+          { className: "row justify-content-center" },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            "div",
+            { className: "col-md-12" },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              "div",
+              { className: "card" },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 "div",
-                { className: "container" },
+                { className: "card-header" },
+                "My Video"
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "div",
+                { className: "card-body" },
+                this.state.members.map(function (member) {
+                  return _this5.user.id !== parseInt(member.id) ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "button",
+                    { key: member.id, onClick: function onClick() {
+                        return _this5.callTo(member.id);
+                      } },
+                    "Call To ",
+                    member.name
+                  ) : null;
+                }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    "div",
-                    { className: "row justify-content-center" },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        "div",
-                        { className: "col-md-12" },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            "div",
-                            { className: "card" },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "div",
-                                { className: "card-header" },
-                                "My Video\u3060\u3088\u306D\u30FCaaa\u77E2\u7530\u3042\u3042\u3042\u3042\u3042"
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "div",
-                                { className: "card-body" },
-                                [1, 2, 3, 4].map(function (userId) {
-                                    return _this5.user.id !== userId ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "button",
-                                        { key: userId, onClick: function onClick() {
-                                                return _this5.callTo(userId);
-                                            } },
-                                        "Call User ",
-                                        userId
-                                    ) : null;
-                                }),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    "div",
-                                    { className: "video-container" },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "my-video", muted: true, ref: function ref(_ref) {
-                                            _this5.myVideo = _ref;
-                                        } }),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "user-video", ref: function ref(_ref2) {
-                                            _this5.userVideo = _ref2;
-                                        } })
-                                )
-                            )
-                        )
-                    )
+                  "div",
+                  { className: "video-container" },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "my-video", muted: true, ref: function ref(_ref) {
+                      _this5.myVideo = _ref;
+                    } }),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "user-video", ref: function ref(_ref2) {
+                      _this5.userVideo = _ref2;
+                    } })
                 )
-            );
-        }
-    }]);
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
 
-    return App;
+  return App;
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
 /* harmony default export */ __webpack_exports__["a"] = (App);
