@@ -20,7 +20,7 @@
         "popper.js": "^1.12",
         "react": "^16.2.0",
         "react-dom": "^16.2.0",
-        "simple-peer": "8.1.1"
+        "simple-peer": "feross/simple-peer#90c14a8d9df1986ec1c751312e478fb70e122638"
     },
     "dependencies": {
         "pusher-js": "^4.2.2"
