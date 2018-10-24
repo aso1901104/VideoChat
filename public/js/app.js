@@ -40002,6 +40002,9 @@ var App = function (_Component) {
       this.mediaHandler.getPermissions().then(function (stream) {
         _this2.setState({ hasMedia: true });
         _this2.user.stream = stream;
+        var video = document.querySelector('video');
+        video.autoplay = true;
+        video.playsinline = true;
 
         try {
           _this2.myVideo.srcObject = stream;
@@ -40010,10 +40013,8 @@ var App = function (_Component) {
         }
 
         // this.myVideo.play();
-        var video = document.querySelector('video');
-        video.autoplay = true;
-        video.playsinline = true;
-        video.play();
+
+        // video.play();
       });
     }
   }, {
