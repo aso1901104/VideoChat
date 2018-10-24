@@ -40009,7 +40009,9 @@ var App = function (_Component) {
           _this2.myVideo.src = URL.createObjectURL(stream);
         }
 
-        _this2.myVideo.play();
+        // video.autoplay = video.playsinline = true;
+
+        _this2.myVideo.autoplay = _this2.myVideo.playsinline = true;
       });
     }
   }, {
@@ -40148,10 +40150,10 @@ var App = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   "div",
                   { className: "video-container" },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "my-video", muted: true, playsinline: true, controls: true, ref: function ref(_ref) {
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "my-video", muted: true, ref: function ref(_ref) {
                       _this5.myVideo = _ref;
                     } }),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "user-video", playsinline: true, controls: true, ref: function ref(_ref2) {
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "user-video", ref: function ref(_ref2) {
                       _this5.userVideo = _ref2;
                     } })
                 ),
@@ -41070,24 +41072,24 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var MediaHandler = function () {
-    function MediaHandler() {
-        _classCallCheck(this, MediaHandler);
+  function MediaHandler() {
+    _classCallCheck(this, MediaHandler);
+  }
+
+  _createClass(MediaHandler, [{
+    key: "getPermissions",
+    value: function getPermissions() {
+      return new Promise(function (resolve, reject) {
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(function (stream) {
+          resolve(stream);
+        }).catch(function (error) {
+          throw new Error("Unable to fetch stream " + error + ".");
+        });
+      });
     }
+  }]);
 
-    _createClass(MediaHandler, [{
-        key: 'getPermissions',
-        value: function getPermissions() {
-            return new Promise(function (resolve, reject) {
-                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: true }).then(function (stream) {
-                    resolve(stream);
-                }).catch(function (error) {
-                    throw new Error('Unable to fetch stream ' + error + '.');
-                });
-            });
-        }
-    }]);
-
-    return MediaHandler;
+  return MediaHandler;
 }();
 
 /* harmony default export */ __webpack_exports__["a"] = (MediaHandler);
