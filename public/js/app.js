@@ -40002,19 +40002,14 @@ var App = function (_Component) {
       this.mediaHandler.getPermissions().then(function (stream) {
         _this2.setState({ hasMedia: true });
         _this2.user.stream = stream;
-        var video = document.getElementById('video-me');
-        video.setAttribute('autoplay', '');
-        video.setAttribute('muted', '');
-        video.setAttribute('playsinline', '');
 
         try {
-          video.srcObject = stream;
-          // this.myVideo.srcObject = stream;
-        } catch (e) {}
-        // this.myVideo.src = URL.createObjectURL(stream);
+          _this2.myVideo.srcObject = stream;
+        } catch (e) {
+          _this2.myVideo.src = URL.createObjectURL(stream);
+        }
 
-
-        // this.myVideo.play();
+        _this2.myVideo.play();
       });
     }
   }, {
@@ -40087,7 +40082,7 @@ var App = function (_Component) {
           _this4.userVideo.src = URL.createObjectURL(stream);
         }
 
-        // this.userVideo.play();
+        _this4.userVideo.play();
       });
 
       peer.on("close", function () {
@@ -40153,10 +40148,10 @@ var App = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   "div",
                   { className: "video-container" },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { id: "video-me", className: "my-video", muted: true, ref: function ref(_ref) {
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "my-video", muted: true, autoPlay: true, playsinline: true, ref: function ref(_ref) {
                       _this5.myVideo = _ref;
                     } }),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { id: "video-user", className: "user-video", ref: function ref(_ref2) {
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "user-video", ref: function ref(_ref2) {
                       _this5.userVideo = _ref2;
                     } })
                 ),
@@ -41083,7 +41078,7 @@ var MediaHandler = function () {
     key: "getPermissions",
     value: function getPermissions() {
       return new Promise(function (resolve, reject) {
-        navigator.mediaDevices.getUserMedia({ video: { width: 320 }, audio: false }).then(function (stream) {
+        navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then(function (stream) {
           resolve(stream);
         }).catch(function (error) {
           throw new Error("Unable to fetch stream " + error + ".");
