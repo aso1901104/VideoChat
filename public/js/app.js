@@ -40002,10 +40002,10 @@ var App = function (_Component) {
       this.mediaHandler.getPermissions().then(function (stream) {
         _this2.setState({ hasMedia: true });
         _this2.user.stream = stream;
-        var video = document.querySelector('video');
-        video.setAttribute("playsinline", true);
-        video.setAttribute("controls", true);
-        video.setAttribute("autoplay", true);
+        var video = document.getElementById('video-me');
+        video.setAttribute('autoplay', '');
+        video.setAttribute('muted', '');
+        video.setAttribute('playsinline', '');
 
         try {
           _this2.myVideo.srcObject = stream;
@@ -40013,7 +40013,7 @@ var App = function (_Component) {
           _this2.myVideo.src = URL.createObjectURL(stream);
         }
 
-        _this2.myVideo.play();
+        // this.myVideo.play();
       });
     }
   }, {
@@ -40086,7 +40086,7 @@ var App = function (_Component) {
           _this4.userVideo.src = URL.createObjectURL(stream);
         }
 
-        _this4.userVideo.play();
+        // this.userVideo.play();
       });
 
       peer.on("close", function () {
@@ -40152,10 +40152,10 @@ var App = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   "div",
                   { className: "video-container" },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "my-video", muted: true, ref: function ref(_ref) {
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { id: "video-me", className: "my-video", muted: true, ref: function ref(_ref) {
                       _this5.myVideo = _ref;
                     } }),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "user-video", ref: function ref(_ref2) {
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { id: "video-user", className: "user-video", ref: function ref(_ref2) {
                       _this5.userVideo = _ref2;
                     } })
                 ),
