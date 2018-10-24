@@ -40009,7 +40009,11 @@ var App = function (_Component) {
           _this2.myVideo.src = URL.createObjectURL(stream);
         }
 
-        _this2.myVideo.play();
+        // this.myVideo.play();
+        var video = document.querySelector('video');
+        video.autoplay = true;
+        video.playsinline = true;
+        video.play();
       });
     }
   }, {
@@ -40148,10 +40152,10 @@ var App = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   "div",
                   { className: "video-container" },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "my-video", muted: true, autoplay: true, playsinline: true, ref: function ref(_ref) {
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "my-video", muted: true, ref: function ref(_ref) {
                       _this5.myVideo = _ref;
                     } }),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "user-video", autoplay: true, playsinline: true, ref: function ref(_ref2) {
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "user-video", ref: function ref(_ref2) {
                       _this5.userVideo = _ref2;
                     } })
                 ),
