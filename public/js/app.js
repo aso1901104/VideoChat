@@ -40003,8 +40003,8 @@ var App = function (_Component) {
         _this2.setState({ hasMedia: true });
         _this2.user.stream = stream;
         var video = document.querySelector('video');
-        video.autoplay = true;
-        video.playsinline = true;
+        video.setAttribute("playsinline", true);
+        video.setAttribute("controls", true);
 
         try {
           _this2.myVideo.srcObject = stream;
@@ -40012,9 +40012,7 @@ var App = function (_Component) {
           _this2.myVideo.src = URL.createObjectURL(stream);
         }
 
-        // this.myVideo.play();
-
-        // video.play();
+        _this2.myVideo.play();
       });
     }
   }, {
@@ -41083,7 +41081,7 @@ var MediaHandler = function () {
     key: "getPermissions",
     value: function getPermissions() {
       return new Promise(function (resolve, reject) {
-        navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then(function (stream) {
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(function (stream) {
           resolve(stream);
         }).catch(function (error) {
           throw new Error("Unable to fetch stream " + error + ".");
