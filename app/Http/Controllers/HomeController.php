@@ -62,7 +62,7 @@ class HomeController extends Controller
             'pdftohtml_path' => '/usr/bin/pdftohtml', // đường dẫn của `pdf to html` sau khi cài đặt
             'pdfinfo_path' => '/usr/bin/pdfinfo', // đường dẫn của `pdf info` sau khi cài đặt
             'clearAfter' => false, // xóa file pdf sau khi convert - mặc định là true
-            'outputDir' => storage_path('app/ebooks'), // thư mục output của file html
+//            'outputDir' => storage_path('app/ebooks'), // thư mục output của file html
         ]);
 //        $text = $p->getHtml()->getPage(1);
         $sendText = '';
