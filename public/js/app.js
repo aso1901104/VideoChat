@@ -40148,7 +40148,7 @@ var App = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   "div",
                   { className: "video-container" },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "my-video", muted: true, autoPlay: true, playsinline: true, controls: true, ref: function ref(_ref) {
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "my-video", autoPlay: true, muted: true, playsinline: true, controls: true, ref: function ref(_ref) {
                       _this5.myVideo = _ref;
                     } }),
                   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "user-video", autoPlay: true, playsinline: true, controls: true, ref: function ref(_ref2) {
