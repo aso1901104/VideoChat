@@ -40005,6 +40005,7 @@ var App = function (_Component) {
         var video = document.querySelector('video');
         video.setAttribute("playsinline", true);
         video.setAttribute("controls", true);
+        video.setAttribute("autoplay", true);
 
         try {
           _this2.myVideo.srcObject = stream;
