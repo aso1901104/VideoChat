@@ -40148,10 +40148,10 @@ var App = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   "div",
                   { className: "video-container" },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "my-video", autoPlay: true, muted: true, playsinline: true, controls: true, ref: function ref(_ref) {
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "my-video", muted: true, playsinline: true, controls: true, ref: function ref(_ref) {
                       _this5.myVideo = _ref;
                     } }),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "user-video", autoPlay: true, playsinline: true, controls: true, ref: function ref(_ref2) {
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "user-video", playsinline: true, controls: true, ref: function ref(_ref2) {
                       _this5.userVideo = _ref2;
                     } })
                 ),
@@ -41075,13 +41075,13 @@ var MediaHandler = function () {
     }
 
     _createClass(MediaHandler, [{
-        key: "getPermissions",
+        key: 'getPermissions',
         value: function getPermissions() {
             return new Promise(function (resolve, reject) {
-                navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(function (stream) {
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: true }).then(function (stream) {
                     resolve(stream);
                 }).catch(function (error) {
-                    throw new Error("Unable to fetch stream " + error + ".");
+                    throw new Error('Unable to fetch stream ' + error + '.');
                 });
             });
         }
