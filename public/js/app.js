@@ -40008,10 +40008,11 @@ var App = function (_Component) {
         video.setAttribute('playsinline', '');
 
         try {
-          _this2.myVideo.srcObject = stream;
-        } catch (e) {
-          _this2.myVideo.src = URL.createObjectURL(stream);
-        }
+          video.srcObject = stream;
+          // this.myVideo.srcObject = stream;
+        } catch (e) {}
+        // this.myVideo.src = URL.createObjectURL(stream);
+
 
         // this.myVideo.play();
       });
@@ -41082,7 +41083,7 @@ var MediaHandler = function () {
     key: "getPermissions",
     value: function getPermissions() {
       return new Promise(function (resolve, reject) {
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(function (stream) {
+        navigator.mediaDevices.getUserMedia({ video: { width: 320 }, audio: true }).then(function (stream) {
           resolve(stream);
         }).catch(function (error) {
           throw new Error("Unable to fetch stream " + error + ".");
