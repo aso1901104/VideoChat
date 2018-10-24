@@ -41083,7 +41083,7 @@ var MediaHandler = function () {
     key: "getPermissions",
     value: function getPermissions() {
       return new Promise(function (resolve, reject) {
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(function (stream) {
+        navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then(function (stream) {
           resolve(stream);
         }).catch(function (error) {
           throw new Error("Unable to fetch stream " + error + ".");
