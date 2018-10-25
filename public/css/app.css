@@ -10483,7 +10483,7 @@ a.text-dark:focus {
 }
 
 .video-container .my-video {
-  width: 100%;
+  width: 130px;
   position: absolute;
   left: 10px;
   bottom: 10px;
