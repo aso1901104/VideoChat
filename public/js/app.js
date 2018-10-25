@@ -40079,13 +40079,16 @@ var App = function (_Component) {
       });
 
       peer.on("stream", function (stream) {
+        var video = document.getElementById('test2');
+        video.setAttribute("playsinline", true);
+        video.setAttribute("autoplay", true);
         try {
           _this4.userVideo.srcObject = stream;
         } catch (e) {
           _this4.userVideo.src = URL.createObjectURL(stream);
         }
 
-        _this4.userVideo.play();
+        // this.userVideo.play();
       });
 
       peer.on("close", function () {
@@ -40154,7 +40157,7 @@ var App = function (_Component) {
                   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { id: "test", className: "my-video", muted: true, ref: function ref(_ref) {
                       _this5.myVideo = _ref;
                     } }),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { className: "user-video", ref: function ref(_ref2) {
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("video", { id: "test2", className: "user-video", muted: true, ref: function ref(_ref2) {
                       _this5.userVideo = _ref2;
                     } })
                 ),
