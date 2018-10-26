@@ -1,6 +1,7 @@
 class MediaHandler {
   getPermissions() {
     return new Promise((resolve, reject) => {
+      navigator.mediaDevices = navigator.mediaDevices || (navigator.mozGetUserMedia || navigator.webkitGetUserMedia);
       navigator.mediaDevices.getUserMedia({video: true, audio: true}).then(stream => {
         resolve(stream);
       }).catch(error => {
