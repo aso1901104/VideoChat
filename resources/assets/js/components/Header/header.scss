@@ -1,0 +1,22 @@
+.header-wrapper {
+  height: 80px;
+  padding: 0px;
+  .main-container {
+    height: 80px;
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    .right-content {
+        height: 80px;
+      width: 50%;
+      display: flex;
+      align-items: center;
+    }
+    .left-content {
+        height: 80px;
+      width: 50%;
+      display: flex;
+      align-items: center;
+    }
+  }
+}

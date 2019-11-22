@@ -1,0 +1,17 @@
+.top-page-wrapper {
+  display: flex;
+  justify-content: space-between;
+  .left-content {
+      width: 45%;
+      height: 400px;
+      background-image: url(/images/analyzing-people-3441040_1280.jpg);
+      background-size: cover;
+      .top-page-main-image {
+          width: 300px;
+      }
+  }
+  .right-content {
+    width: 45%;
+    height: 400px;
+  }
+}

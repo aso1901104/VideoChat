@@ -1,9 +1,11 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-// Variables
+@import 'html5reset-1.6.1';
+// // Variables
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP');
+
 @import 'variables';
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+// // Bootstrap
+// @import '~bootstrap/scss/bootstrap';
 
 .navbar-laravel {
   background-color: #fff;

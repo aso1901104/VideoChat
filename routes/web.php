@@ -11,12 +11,12 @@
 |
 */
 
-Route::get(
-    '/',
-    function () {
-        return view('welcome');
-    }
-);
+// Route::get(
+//     '/',
+//     function () {
+//         return view('welcome');
+//     }
+// );
 
 Auth::routes();
 
@@ -24,3 +24,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/pusher/auth', 'HomeController@authenticate');
 Route::post('/testPdf', 'HomeController@testPdf');
+
+Route::get('/{path?}', function () { //react-routerとlaravelのルーティングが喧嘩しないようにする処理。
+    return view('home');
+})->where('path', '.*');

@@ -1,6 +1,6 @@
-import React    from "react";
+import React from "react";
 import ReactDOM from "react-dom";
-import App      from "./components/App";
+import App from "./Main";
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -17,5 +17,5 @@ require("./bootstrap");
  */
 
 if (document.getElementById("app")) {
-    ReactDOM.render(<App/>, document.getElementById("app"));
+  ReactDOM.render(<App />, document.getElementById("app"));
 }
