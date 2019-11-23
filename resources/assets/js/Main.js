@@ -15,6 +15,7 @@ class Main extends Component {
           <Header />
           <Switch>
             <Route exact path="/" component={TopPage} />
+
             <Route exact path="/chat" component={ChatPage} />
           </Switch>
           <Footer />
