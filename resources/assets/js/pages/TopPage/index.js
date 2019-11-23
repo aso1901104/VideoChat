@@ -1,12 +1,21 @@
 import React, {Component, useState} from "react";
+import { Link } from 'react-router-dom';
 import './topPage.scss'
 
 const TopPage = () => {
   return (
   <div className="top-page-wrapper">
-    <div className="left-content" />
+    <div className="left-content">
+      <img className="top-page-main-image" src={'/images/group-1825513_1920.jpg'} alt="" />
+    </div>
     <div className="right-content">
-      <h1>ビジネス向けの簡単なビデオ会議</h1>
+      <div className="sentence-area">
+        <h1 className="text-main">ビジネス向けの簡単なビデオ会議</h1>
+        <h2 className="text-sub">柔軟なビデオ会議でチームとクライアントを結び付けます。</h2>
+        <Link className="sign-up-button" to="/sign-up">
+          始めましょう
+        </Link>
+      </div>
     </div>
   </div>
   )

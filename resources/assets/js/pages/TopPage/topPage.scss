@@ -1,17 +1,40 @@
 .top-page-wrapper {
+  height: 50%;
   display: flex;
   justify-content: space-between;
   .left-content {
-      width: 45%;
+      width: 48%;
       height: 400px;
-      background-image: url(/images/analyzing-people-3441040_1280.jpg);
-      background-size: cover;
       .top-page-main-image {
-          width: 300px;
+          max-width: 100%;
       }
   }
   .right-content {
-    width: 45%;
+    width: 48%;
     height: 400px;
+    .sentence-area {
+      width: 80%;
+      .text-main {
+        margin-bottom: 50px;
+      }
+      .text-sub {
+        font-size: 24px;
+        color: #494e5f;
+        margin: 24px 0;
+      }
+      .sign-up-button {
+        display: inline-block;
+        text-decoration: none;
+        padding: 13px;
+        background: #ff2e63;
+        color: #ffffff;
+        border-radius: 30px;
+        font-size: 24px;
+        font-weight: 700;
+        margin-top: 60px;
+        width: 50%;
+        text-align: center;
+      }
+    }
   }
 }

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from 'react-router-dom'
 import "./header.scss";
 
 const Header = () => {
@@ -6,10 +7,10 @@ const Header = () => {
     <div className="header-wrapper">
       <div className="main-container">
         <div className="left-content">
-          <h1>Web Chat</h1>
+          <img className="main-logo" src={'/images/bchat_logo.png'} alt=""/>
         </div>
         <div className="right-content">
-          <h2>aaa</h2>
+          <Link className="sign-up-button" to="/sign-up">始めましょう</Link>
         </div>
       </div>
     </div>
