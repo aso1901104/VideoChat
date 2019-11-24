@@ -56,4 +56,12 @@ class HomeController extends Controller
         $key = $pusher->presence_auth($channelName, $socketId, auth()->user()->id, $presenceData);
         return response($key);
     }
+
+    public function getCurrentUser()
+    {
+        $user = auth()->user();
+        return response()->json([
+            'currentUser' => $user,
+        ]);
+    }
 }

@@ -24,6 +24,10 @@
     },
     "dependencies": {
         "pusher-js": "^4.2.2",
-        "react-router-dom": "^5.1.2"
+        "react-redux": "^7.1.3",
+        "react-router-dom": "^5.1.2",
+        "redux": "^4.0.4",
+        "redux-devtools-extension": "^2.13.8",
+        "redux-thunk": "^2.3.0"
     }
 }

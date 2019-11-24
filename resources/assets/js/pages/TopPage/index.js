@@ -2,11 +2,13 @@ import React, {Component, useState} from "react";
 import { Link } from 'react-router-dom';
 import './topPage.scss'
 
-const TopPage = () => {
+import { connect } from 'react-redux';
+
+const TopPage = ({ authen }) => {
   return (
   <div className="top-page-wrapper">
     <div className="left-content">
-      <img className="top-page-main-image" src={'/images/group-1825513_1920.jpg'} alt="" />
+      <img className="top-page-main-image" src={'/images/face-535769_1920.jpg'} alt="" />
     </div>
     <div className="right-content">
       <div className="sentence-area">
@@ -21,4 +23,10 @@ const TopPage = () => {
   )
 }
 
-export default TopPage;
+const mapStateToProps = state => {
+  return {
+    authen: state.authen,
+  }
+};
+
+export default connect(mapStateToProps, null)(TopPage);

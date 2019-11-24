@@ -1,6 +1,15 @@
 import React from "react";
+import { composeWithDevTools } from 'redux-devtools-extension';
 import ReactDOM from "react-dom";
 import App from "./Main";
+
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import { Provider } from "react-redux";
+import rootReducer from "./reducers/index";
+
+const middleWares = [thunk];
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...middleWares)));
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -17,5 +26,9 @@ require("./bootstrap");
  */
 
 if (document.getElementById("app")) {
-  ReactDOM.render(<App />, document.getElementById("app"));
+  ReactDOM.render(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  , document.getElementById("app"));
 }
