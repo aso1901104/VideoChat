@@ -26,4 +26,15 @@ class CreateRoomController extends Controller
             'room' => $room,
         ]);
     }
+
+    public function getMyRooms()
+    {
+        $user = auth()->user();
+
+        $rooms = $user->rooms;
+
+        return response()->json([
+            'rooms' => $rooms,
+        ]);
+    }
 }
