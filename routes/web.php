@@ -7,6 +7,7 @@ Route::group(['prefix' => 'user'], function () {
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/getCurrentUser', 'HomeController@getCurrentUser');
+Route::post('/createRoom', 'CreateRoomController@createRoom');
 
 Route::post('/pusher/auth', 'HomeController@authenticate');
 Route::post('/testPdf', 'HomeController@testPdf');

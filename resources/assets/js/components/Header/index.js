@@ -9,7 +9,7 @@ const Header = (props) => {
     <div className="header-wrapper">
       <div className="main-container">
         <div className="left-content">
-          <img className="main-logo" onClick={() => props.history.push('/')} src={'/images/bchat_logo.png'} alt=""/>
+          <img className="main-logo" onClick={() => props.currentUser ? props.history.push('/create-room') : props.history.push('/')} src={'/images/bchat_logo.png'} alt=""/>
         </div>
         <div className="right-content">
           {currentUser ?

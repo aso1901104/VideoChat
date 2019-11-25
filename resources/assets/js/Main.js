@@ -9,6 +9,7 @@ import { setCurrentUser } from './actions/authen'
 import ChatPage from "./pages/ChatPage";
 import TopPage from "./pages/TopPage";
 import LoginPage from './pages/LoginPage';
+import CreateRoomPage from './pages/CreateRoomPage'
 
 
 class Main extends Component {
@@ -25,6 +26,7 @@ class Main extends Component {
             <Route exact path="/" component={TopPage} />
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/chat" component={ChatPage} />
+            <Route exact path="/create-room" component={CreateRoomPage} />
           </Switch>
           <Footer />
         </BrowserRouter>
