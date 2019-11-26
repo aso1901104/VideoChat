@@ -37,4 +37,9 @@ class CreateRoomController extends Controller
             'rooms' => $rooms,
         ]);
     }
+
+    public function deleteRoom(Room $room)
+    {
+        $room->delete();
+    }
 }

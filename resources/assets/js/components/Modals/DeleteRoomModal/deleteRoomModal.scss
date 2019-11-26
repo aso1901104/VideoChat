@@ -1,0 +1,64 @@
+.delete-room-modal-wrapper {
+  width: 50%;
+  height: 30%;
+  border-radius: 8px;
+  z-index: 8000;
+  background: #ffffff;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow:2px 2px 10px;
+  h2 {
+    font-size: 27px;
+    color: black;
+  }
+  .button-area {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    margin: 0 auto;
+    .yes-button {
+      background: #2b189b;
+      color: #fff;
+      padding: 8px;
+      font-size: 24px;
+      font-weight: 700;
+      border-radius: 12px;
+      width: 25%;
+      border: none;
+      outline: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      margin-top: 16px;
+    }
+    .yes-button:hover {
+      background: #1e0e7b;
+    }
+    .no-button {
+      border: solid #2b189b 1px;
+      color: #2b189b;
+      padding: 8px;
+      font-size: 24px;
+      font-weight: 700;
+      border-radius: 12px;
+      width: 25%;
+      outline: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      margin-top: 16px;
+      margin-right: 16px;
+    }
+    .no-button:hover {
+      color: #1e0e7b;
+    }
+  }
+
+}

@@ -3,31 +3,15 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import RequireAuthWrapper from '../../components/RequireAuthWrapper'
 
-import { FaVideo } from "react-icons/fa";
-
-
 import './createRoomPage.scss'
 
-const RoomList = ({ rooms }) => {
+import RoomList from './RoomList';
+import DeleteRoomModal from '../../components/Modals/DeleteRoomModal'
 
-  const roomItems = rooms.map(room => (
-    <li>
-      <div className="room-list-content-wrapper">
-        <FaVideo className="icon" />
-        <p>{room.name}</p>
-      </div>
-    </li>
-  ))
-  return (
-  <div className="room-list-wrapper">
-    <ul>
-      {roomItems}
-    </ul>
-  </div>)
-}
 
 const CreateRoomPage = RequireAuthWrapper((props) => {
   const [rooms, setRooms] = useState([])
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const createRoom = () => {
     axios.post('/createRoom', {
       room_name: 'asfasdasdfasdfasdasdfasdf',
@@ -39,16 +23,28 @@ const CreateRoomPage = RequireAuthWrapper((props) => {
     })
   }
 
+  const deleteRoom = (roomId) => {
+    axios.delete(`/deleteRoom/${roomId}`)
+  }
+
+  const closeDeleteModal = () => {
+    setIsOpenDeleteModal(false)
+  }
+
   useEffect(() => {
     getMyRooms();
-    console.log('aaaaaaaaaaa')
   }, [])
   return (
     <div className="create-room-wrapper">
+      {isOpenDeleteModal && <DeleteRoomModal closeDeleteModal={closeDeleteModal} />}
       <div className="create-room-content-wrapper">
         <div className="room-list-area">
           <h3 className="title">Your rooms</h3>
-          <RoomList rooms={rooms} />
+          <RoomList
+            rooms={rooms}
+            deleteFunc={deleteRoom}
+            setIsOpenDeleteModal={setIsOpenDeleteModal}
+          />
         </div>
       </div>
     </div>

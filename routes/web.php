@@ -9,6 +9,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/getCurrentUser', 'HomeController@getCurrentUser');
 Route::post('/createRoom', 'CreateRoomController@createRoom');
 Route::get('/getMyRooms', 'CreateRoomController@getMyRooms');
+Route::delete('/deleteRoom/{room}', 'CreateRoomController@deleteRoom');
 
 Route::post('/pusher/auth', 'HomeController@authenticate');
 Route::post('/testPdf', 'HomeController@testPdf');

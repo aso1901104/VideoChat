@@ -14,23 +14,6 @@
       .room-list-wrapper {
         width: 95%;
         margin: 0 auto;
-        ul {
-          list-style: none;
-          .room-list-content-wrapper {
-            height: 42px;
-            display: flex;
-            align-items: center;
-            color:#444;
-            border-radius: 4px;
-            padding: 8px;
-            .icon {
-              margin-right: 12px;
-            }
-          }
-          .room-list-content-wrapper:hover {
-            background: rgb(191, 191, 191);
-          }
-        }
       }
     }
   }
