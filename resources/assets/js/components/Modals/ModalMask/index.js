@@ -9,7 +9,7 @@ const ModalMask = WappedCompo => {
     render() {
       return (
         <div className="modal-mask-wrapper" onClick={(e) => {
-          e.target.className === 'modal-mask-wrapper' && this.props.closeDeleteModal(e)
+          e.target.className === 'modal-mask-wrapper' && this.props.closeModal(e)
         }}>
           <div>
             <WappedCompo {...this.props} />

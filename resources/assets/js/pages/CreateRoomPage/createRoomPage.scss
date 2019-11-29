@@ -11,6 +11,28 @@
         font-size: 18px;
         margin-bottom: 12px;
       }
+      .button-area {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 60px;
+        .create-button {
+          display: inline-block;
+          text-decoration: none;
+          outline: none;
+          padding: 13px;
+          background: #2b189b;
+          color: #ffffff;
+          border-radius: 8px;
+          font-size: 24px;
+          font-weight: 700;
+          width: 50%;
+          text-align: center;
+        }
+        .create-button:hover {
+          background: #1e0e7b;
+        }
+      }
       .room-list-wrapper {
         width: 95%;
         margin: 0 auto;

@@ -17,13 +17,11 @@ class CreateRoomController extends Controller
         $room = new Room([
             'name' => $request->room_name,
         ]);
-
         $user = auth()->user();
-
         $user->rooms()->save($room);
-
+        $rooms = $user->rooms;
         return response()->json([
-            'room' => $room,
+            'rooms' => $rooms,
         ]);
     }
 
@@ -41,5 +39,10 @@ class CreateRoomController extends Controller
     public function deleteRoom(Room $room)
     {
         $room->delete();
+        $user = auth()->user();
+        $rooms = $user->rooms;
+        return response()->json([
+            'rooms' => $rooms,
+        ]);
     }
 }

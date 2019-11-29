@@ -25,7 +25,7 @@ class Main extends Component {
           <Switch>
             <Route exact path="/" component={TopPage} />
             <Route exact path="/login" component={LoginPage} />
-            <Route exact path="/chat" component={ChatPage} />
+            <Route exact path="/chat/:roomName" component={ChatPage} />
             <Route exact path="/create-room" component={CreateRoomPage} />
           </Switch>
           <Footer />

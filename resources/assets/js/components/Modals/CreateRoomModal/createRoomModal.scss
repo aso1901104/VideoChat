@@ -1,4 +1,4 @@
-.delete-room-modal-wrapper {
+.create-room-modal-wrapper {
   width: 50%;
   height: 30%;
   border-radius: 8px;
@@ -15,13 +15,45 @@
     font-size: 27px;
     color: black;
   }
+  .create-modal-title {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .root-url {
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .input-wrapper {
+    margin-bottom: 16px;
+    background-color: #fff;
+    box-shadow: inset 0 0 0 1px transparent;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 15px;
+    border: solid rgba(204, 204, 204, 1) 1px;
+    border-radius: 4px;
+    display: -ms-flexbox;
+    display: flex;
+    flex-flow: row nowrap;
+    .room-name-input {
+      flex: 1 1 auto;
+      font-size: inherit;
+      line-height: inherit;
+      color: inherit;
+      background-color: inherit;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      outline: none;
+      border: 0;
+    }
+  }
   .button-area {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    height: 100%;
     margin: 0 auto;
-    .yes-button {
+    .create-button {
       background: #2b189b;
       color: #fff;
       padding: 8px;
@@ -36,12 +68,17 @@
       appearance: none;
       cursor: pointer;
       margin-top: 16px;
+      margin-right: 16px;
     }
-    .yes-button:hover {
+    .none-active {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .create-button:hover {
       background: #1e0e7b;
     }
-    .no-button {
-      border: solid #2b189b 1px;
+    .cancel-button {
+      border: 1px solid #2b189b;
       color: #2b189b;
       padding: 8px;
       font-size: 24px;
@@ -54,10 +91,10 @@
       appearance: none;
       cursor: pointer;
       margin-top: 16px;
-      margin-right: 16px;
     }
-    .no-button:hover {
+    .cancel-button:hover {
       color: #1e0e7b;
     }
   }
+
 }

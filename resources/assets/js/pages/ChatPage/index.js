@@ -9,8 +9,8 @@ const APP_CLUSTER = process.env.MIX_PUSHER_APP_CLUSTER;
 const ua = navigator.userAgent.toLowerCase();
 
 class ChatPage extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       hasMedia: false,
@@ -20,6 +20,13 @@ class ChatPage extends Component {
     };
 
     this.user = window.user;
+
+    if (this.user === undefined) {
+      this.user ={
+        id: 10000000,
+        name: 'guest'
+      }
+    }
     this.user.stream = null;
     this.peers = {};
 
@@ -32,7 +39,6 @@ class ChatPage extends Component {
   }
 
   componentWillMount() {
-    this.setupPusher();
     this.mediaHandler.getPermissions().then(stream => {
       this.setState({ hasMedia: true });
       this.user.stream = stream;
@@ -45,7 +51,7 @@ class ChatPage extends Component {
       } catch (e) {
         this.myVideo.src = URL.createObjectURL(stream);
       }
-
+      this.setupPusher();
       // this.myVideo.play();
     });
   }
@@ -61,13 +67,15 @@ class ChatPage extends Component {
         }
       }
     });
-    console.log(this.pusher);
+    console.log(this.pusher)
     this.channel = this.pusher.subscribe("presence-video-channel");
     this.channel.bind("pusher:subscription_succeeded", members => {
-      // for example
       let membersSet = [];
-      members.each(function(member) {
+      members.each((member) => {
         console.log(member);
+        if (member.id != this.user.id) {
+          this.callTo(member.id)
+        }
         membersSet = [{ id: member.id, name: member.info.name }, ...membersSet];
       });
       this.setState({
@@ -140,7 +148,7 @@ class ChatPage extends Component {
         <div className="row justify-content-center">
           <div className="col-md-12">
             <div className="card">
-              <div className="card-header">My ViChat</div>
+              <div className="card-header">{this.props.match.params.roomName}</div>
               <div className="card-body">
                 {this.state.members.map(member => {
                   return this.user.id !== parseInt(member.id) ? (
