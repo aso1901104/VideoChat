@@ -12,17 +12,22 @@ import CreateRoomModal from '../../components/Modals/CreateRoomModal'
 
 const CreateRoomPage = RequireAuthWrapper((props) => {
   const [rooms, setRooms] = useState([])
+  const [errors, setErrors] = useState([])
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false)
   const [selectedRoomId, setSelectedRoomId] = useState(null)
   const [roomName, setRoomName] = useState('');
   const createRoom = () => {
     axios.post('/createRoom', {
-      room_name: roomName,
+      name: roomName,
     }).then(res => {
       setRoomName('')
       setRooms(res.data.rooms)
       setIsOpenCreateModal(false)
+    }).catch((e) => {
+      const errors = Object.values(e.response.data.errors)
+      setErrors(errors)
+
     })
   }
   const getMyRooms = () => {
@@ -57,6 +62,7 @@ const CreateRoomPage = RequireAuthWrapper((props) => {
           setRoomName={setRoomName}
           closeModal={closeCreateModal}
           roomName={roomName}
+          errors={errors}
         />
       }
       <div className="create-room-content-wrapper">

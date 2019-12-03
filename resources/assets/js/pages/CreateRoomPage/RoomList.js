@@ -9,9 +9,11 @@ const RoomList = ({ rooms, setIsOpenDeleteModal, setSelectedRoomId }) => {
 
   const roomItems = rooms.map(room => (
     <li>
-      <Link to={`/chat/${room.name}`} className="room-list-content-wrapper">
-        <FaVideo className="icon" />
+      <div className="room-list-content-wrapper">
+        <Link className="link-area" to={`/chat/${room.name}`}>
+          <FaVideo className="icon" />
           <p>{room.name}</p>
+        </Link>
         <div className="close-icon-area"
           onClick={() => {
             setIsOpenDeleteModal(true)
@@ -20,7 +22,7 @@ const RoomList = ({ rooms, setIsOpenDeleteModal, setSelectedRoomId }) => {
         >
           <FaTimes className="close-icon" />
         </div>
-      </Link>
+      </div>
     </li>
   ))
   return (

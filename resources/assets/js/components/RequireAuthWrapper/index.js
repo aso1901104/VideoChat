@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { setCurrentUser } from '../../actions/authen'
 
 const RequireAuthWrapper = WrapperedComponent => {
   const Component = () => class extends React.Component {

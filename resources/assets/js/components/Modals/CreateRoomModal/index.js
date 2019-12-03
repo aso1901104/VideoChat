@@ -5,11 +5,18 @@ import './createRoomModal.scss'
 import ModalMask from '../ModalMask'
 const MIX_APP_URL = process.env.MIX_APP_URL;
 
-const CreateRoomModal = ModalMask(({ roomName, setRoomName, closeModal, createRoom }) => {
+const CreateRoomModal = ModalMask(({ roomName, setRoomName, closeModal, createRoom, errors }) => {
   return (
     <div className="create-room-modal-wrapper">
       <h2 className="create-modal-title">プライベートな会議室を作成して始めましょう</h2>
       <p className="root-url">{MIX_APP_URL}/</p>
+      {errors.length > 0 ?
+      errors.map(error => {
+      return (<p className="error-message">{error}</p>)
+      })
+      :
+      null
+      }
       <div className="input-wrapper">
         <input
           className="room-name-input"

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Pusher\Pusher;
 use TonchikTm\PdfToHtml\Pdf;
 use Storage;
-
+use App\Room;
 
 class HomeController extends Controller
 {
@@ -55,7 +55,7 @@ class HomeController extends Controller
             $presenceData = [
                 'name' => 'guest',
             ];
-            $key = $pusher->presence_auth($channelName, $socketId, 10000000, $presenceData);
+            $key = $pusher->presence_auth($channelName, $socketId, 'af02349dfw', $presenceData);
         } else {
             $presenceData = [
                 'name' => auth()->user()->name,
@@ -64,6 +64,14 @@ class HomeController extends Controller
         }
 
         return response($key);
+    }
+
+    public function roomExistsChk(Request $request)
+    {
+        $isExists = Room::where('name', $request->name)->exists();
+        return response()->json([
+            'isExists' => $isExists,
+        ]);
     }
 
     public function getCurrentUser()

@@ -1,6 +1,6 @@
 .create-room-modal-wrapper {
   width: 50%;
-  height: 30%;
+  height: 45%;
   border-radius: 8px;
   z-index: 8000;
   background: #ffffff;
@@ -21,6 +21,10 @@
   }
   .root-url {
     font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .error-message {
+    color: red;
     margin-bottom: 16px;
   }
   .input-wrapper {
