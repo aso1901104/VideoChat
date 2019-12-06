@@ -83,6 +83,7 @@ class ChatPage extends Component {
     this.state.user.stream.getAudioTracks().forEach((track) => {
       track.stop()
     })
+    this.pusher.unsubscribe(`presence-video-channel-${this.props.match.params.roomName}`)
   }
 
   initialVideoFunc() {
@@ -121,7 +122,7 @@ class ChatPage extends Component {
         if (member.id != this.state.user.id) {
           this.callTo(member.id)
           this.setState({
-            atherUserName: member.name,
+            atherUserName: member.info.name,
           })
         }
         membersSet = [{ id: member.id, name: member.info.name }, ...membersSet];
@@ -129,6 +130,13 @@ class ChatPage extends Component {
       this.setState({
         members: membersSet
       });
+    });
+    this.channel.bind("pusher:member_added", member => {
+      if (member.id != this.state.user.id) {
+        this.setState({
+          atherUserName: member.info.name,
+        })
+      }
     });
     this.channel.bind(`client-signal-${this.state.user.id}`, signal => {
       let peer = this.peers[signal.userId];
@@ -197,16 +205,6 @@ class ChatPage extends Component {
     return (
       this.state.isRoomExists ?
       (<div className="chat-page-container">
-        {this.state.members.map(member => {
-          return this.state.user.id !== parseInt(member.id) ? (
-            <button
-              key={member.id}
-              onClick={() => this.callTo(member.id)}
-            >
-              Call To {member.name}
-            </button>
-          ) : null;
-        })}
         <div className="video-container-wrapper">
           <div className="video-container">
             <video
