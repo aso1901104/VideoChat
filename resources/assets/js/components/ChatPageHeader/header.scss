@@ -1,0 +1,60 @@
+.chat-page-header-wrapper {
+  height: 80px;
+  padding: 0px;
+  background: rgb(0, 102, 84);
+  .main-container {
+    height: 80px;
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    .right-content {
+      height: 80px;
+      width: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      .sign-up-button {
+        display: inline-block;
+        text-decoration: none;
+        padding: 8px;
+        background: #ff2e63;
+        color: #ffffff;
+        border-radius: 30px;
+        font-size: 16px;
+        font-weight: 900;
+        width: 25%;
+        text-align: center;
+      }
+      .login-button {
+        text-decoration: none;
+        font-size: 14px;
+        color: #222;
+        margin-right: 16px;
+      }
+      .user-info-wrapper {
+        display: flex;
+        width: 40%;
+        justify-content: space-between;
+        align-items: center;
+        .user-image {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+        }
+        .user-name {
+          font-weight: 700;
+          color: #ffffff;
+        }
+      }
+    }
+    .left-content {
+      height: 80px;
+      width: 50%;
+      display: flex;
+      align-items: center;
+      .main-logo {
+        height: 70%;
+      }
+    }
+  }
+}

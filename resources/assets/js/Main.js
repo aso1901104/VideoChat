@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Header from "./components/Header";
+import ChatPageHeader from "./components/ChatPageHeader";
 import Footer from "./components/Footer";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import { connect } from 'react-redux'
@@ -11,6 +12,8 @@ import TopPage from "./pages/TopPage";
 import LoginPage from './pages/LoginPage';
 import CreateRoomPage from './pages/CreateRoomPage'
 
+const APP_URL = process.env.MIX_APP_URL;
+
 
 class Main extends Component {
   constructor(props) {
@@ -21,14 +24,14 @@ class Main extends Component {
     return (
       <div style={{ height: '100vh' }}>
         <BrowserRouter>
-          <Header />
+          {!this.props.chat.isChatPage ? <Header /> : <ChatPageHeader />}
           <Switch>
             <Route exact path="/" component={TopPage} />
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/chat/:roomName" component={ChatPage} />
             <Route exact path="/create-room" component={CreateRoomPage} />
           </Switch>
-          <Footer />
+          {!this.props.chat.isChatPage && <Footer />}
         </BrowserRouter>
       </div>
     );
@@ -43,4 +46,10 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Main);
+const mapStateToProps = state => {
+  return {
+    chat: state.chat,
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

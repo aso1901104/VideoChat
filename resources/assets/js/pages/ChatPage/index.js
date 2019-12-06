@@ -6,6 +6,8 @@ import MediaHandler from "../../MediaHandler";
 import Pusher from "pusher-js";
 import Peer from "simple-peer";
 import NoRoom from './NoRoom';
+import './chatPage.scss'
+import { setIsChatFlag } from '../../actions/chat'
 
 const APP_KEY = process.env.MIX_PUSHER_APP_KEY;
 const APP_CLUSTER = process.env.MIX_PUSHER_APP_CLUSTER;
@@ -22,6 +24,8 @@ class ChatPage extends Component {
       testFile: "",
       user: null,
       isRoomExists: false,
+      atherUserName: '',
+
     };
 
     this.peers = {};
@@ -34,6 +38,7 @@ class ChatPage extends Component {
   }
 
   componentWillMount() {
+    this.props.setIsChatFlag(true)
     axios.post('/roomExistsChk', {
       name: this.props.match.params.roomName,
     }).then((res) => {
@@ -69,6 +74,7 @@ class ChatPage extends Component {
   }
 
   componentWillUnmount() {
+    this.props.setIsChatFlag(false)
     this.state.user.stream.getVideoTracks().forEach((track) => {
       track.stop()
     })
@@ -112,6 +118,9 @@ class ChatPage extends Component {
         console.log(member);
         if (member.id != this.state.user.id) {
           this.callTo(member.id)
+          this.setState({
+            atherUserName: member.name,
+          })
         }
         membersSet = [{ id: member.id, name: member.info.name }, ...membersSet];
       });
@@ -181,42 +190,41 @@ class ChatPage extends Component {
   render() {
     return (
       this.state.isRoomExists ?
-      (<div className="container">
-        <div className="row justify-content-center">
-          <div className="col-md-12">
-            <div className="card">
-              <div className="card-body">
-                {this.state.members.map(member => {
-                  return this.state.user.id !== parseInt(member.id) ? (
-                    <button
-                      key={member.id}
-                      onClick={() => this.callTo(member.id)}
-                    >
-                      Call To {member.name}
-                    </button>
-                  ) : null;
-                })}
-                <div className="video-container">
-                  <div>
-                    <video
-                      id="test"
-                      className="my-video"
-                      muted
-                      ref={ref => {
-                        this.myVideo = ref;
-                      }}
-                    />
-                    <video
-                      id="test2"
-                      className="user-video"
-                      ref={ref => {
-                        this.userVideo = ref;
-                      }}
-                    />
-                  </div>
-                  {/*<video id="test" autoPlay className="user-video"/>*/}
-                </div>
-              </div>
+      (<div className="chat-page-container">
+        {this.state.members.map(member => {
+          return this.state.user.id !== parseInt(member.id) ? (
+            <button
+              key={member.id}
+              onClick={() => this.callTo(member.id)}
+            >
+              Call To {member.name}
+            </button>
+          ) : null;
+        })}
+        <div className="video-container-wrapper">
+          <div className="video-container">
+            <video
+              id="test"
+              className="my-video"
+              muted
+              ref={ref => {
+                this.myVideo = ref;
+              }}
+            />
+            <div className="innner-video-user-name">
+              <p>{this.state.user && this.state.user.name} (you)</p>
+            </div>
+          </div>
+          <div className="video-container">
+            <video
+              id="test2"
+              className="user-video"
+              ref={ref => {
+                this.userVideo = ref;
+              }}
+            />
+            <div className="innner-video-user-name">
+              <p>{this.state.atherUserName}</p>
             </div>
           </div>
         </div>
@@ -238,6 +246,9 @@ const mapDispatchToProps = dispatch => {
   return {
     getCurrentUser: () => {
       dispatch(setCurrentUser())
+    },
+    setIsChatFlag: (flag) => {
+      dispatch(setIsChatFlag(flag))
     }
   }
 }
