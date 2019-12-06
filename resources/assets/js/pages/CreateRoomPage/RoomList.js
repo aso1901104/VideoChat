@@ -8,7 +8,7 @@ import './roomList.scss'
 const RoomList = ({ rooms, setIsOpenDeleteModal, setSelectedRoomId }) => {
 
   const roomItems = rooms.map(room => (
-    <li>
+    <li key={room.id}>
       <div className="room-list-content-wrapper">
         <Link className="link-area" to={`/chat/${room.name}`}>
           <FaVideo className="icon" />

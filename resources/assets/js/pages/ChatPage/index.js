@@ -8,6 +8,8 @@ import Peer from "simple-peer";
 import NoRoom from './NoRoom';
 import './chatPage.scss'
 import { setIsChatFlag } from '../../actions/chat'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from 'react-loader-spinner'
 
 const APP_KEY = process.env.MIX_PUSHER_APP_KEY;
 const APP_CLUSTER = process.env.MIX_PUSHER_APP_CLUSTER;
@@ -25,7 +27,7 @@ class ChatPage extends Component {
       user: null,
       isRoomExists: false,
       atherUserName: '',
-
+      isCallWait: false,
     };
 
     this.peers = {};
@@ -144,7 +146,9 @@ class ChatPage extends Component {
   }
 
   startPeer(peerId, isInitiator) {
-    console.log("押した");
+    this.setState({
+      isCallWait: true,
+    })
     const peer = new Peer({
       initiator: isInitiator,
       stream: this.state.user.stream,
@@ -169,7 +173,9 @@ class ChatPage extends Component {
       } catch (e) {
         this.userVideo.src = URL.createObjectURL(stream);
       }
-      // this.userVideo.play();
+      this.setState({
+        isCallWait: false,
+      })
     });
 
     peer.on("close", () => {
@@ -223,6 +229,17 @@ class ChatPage extends Component {
                 this.userVideo = ref;
               }}
             />
+            {
+              this.state.isCallWait
+              &&
+              <Loader
+                className="loader"
+                type="Oval"
+                color="#00BFFF"
+                height={100}
+                width={100}
+              />
+            }
             <div className="innner-video-user-name">
               <p>{this.state.atherUserName}</p>
             </div>
