@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Pusher\Pusher;
 use TonchikTm\PdfToHtml\Pdf;
 use Storage;
-
+use App\Room;
 
 class HomeController extends Controller
 {
@@ -17,7 +17,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -40,7 +40,6 @@ class HomeController extends Controller
     {
         $socketId    = $request->get('socket_id');
         $channelName = $request->get('channel_name');
-
         $pusher = new Pusher(
             env('PUSHER_APP_KEY'),
             env('PUSHER_APP_SECRET'),
@@ -50,11 +49,29 @@ class HomeController extends Controller
                 'encrypted' => true,
             ]
         );
-        $presenceData = [
-            'name' => auth()->user()->name,
-        ];
-        $key = $pusher->presence_auth($channelName, $socketId, auth()->user()->id, $presenceData);
+
+        $user = auth()->user();
+        if (is_null($user)) {
+            $presenceData = [
+                'name' => 'guest',
+            ];
+            $key = $pusher->presence_auth($channelName, $socketId, 'af02349dfw', $presenceData);
+        } else {
+            $presenceData = [
+                'name' => auth()->user()->name,
+            ];
+            $key = $pusher->presence_auth($channelName, $socketId, auth()->user()->id, $presenceData);
+        }
+
         return response($key);
+    }
+
+    public function roomExistsChk(Request $request)
+    {
+        $isExists = Room::where('name', $request->name)->exists();
+        return response()->json([
+            'isExists' => $isExists,
+        ]);
     }
 
     public function getCurrentUser()

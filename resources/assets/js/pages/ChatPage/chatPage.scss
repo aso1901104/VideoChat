@@ -1,0 +1,62 @@
+.chat-page-container {
+  background: rgb(0, 102, 84);
+  height: calc(100% - 80px);
+  .video-container-wrapper {
+    display: flex;
+    height: calc(100% - 80px);
+    align-items: center;
+    .video-container {
+      width: 49%;
+      height: 0;
+      padding-top: calc(369 / 1000 * 100%);
+      margin: 0 auto;
+      border-radius: 8px;
+      position: relative;
+      background: black;
+      .loader {
+        z-index: 30;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .innner-video-user-name {
+        position: absolute;
+        left: 4px;
+        bottom: 4px;
+        z-index: 10;
+        border-radius: 4px;
+        background: rgba(45,45,45, 0.5);
+        padding: 8px;
+        color: #ffffffff;
+        p {
+          margin: 0;
+        }
+      }
+      .my-video {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        border-radius: 8px;
+      }
+      .user-video {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        border-radius: 8px;
+      }
+    }
+  }
+}
+
+

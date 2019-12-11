@@ -3,13 +3,13 @@ import { Link, withRouter } from 'react-router-dom'
 import "./header.scss";
 import { connect } from 'react-redux'
 
-const Header = (props) => {
+const ChatPageHeader = (props) => {
   const { currentUser } = props;
   return (
-    <div className="header-wrapper">
+    <div className="chat-page-header-wrapper">
       <div className="main-container">
         <div className="left-content">
-          <img className="main-logo" onClick={() => props.currentUser ? props.history.push('/create-room') : props.history.push('/')} src={'/images/bchat_logo.png'} alt=""/>
+          <img className="main-logo" onClick={() => props.currentUser ? props.history.push('/create-room') : props.history.push('/')} src={'/images/logopink.png'} alt=""/>
         </div>
         <div className="right-content">
           {currentUser ?
@@ -35,4 +35,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, null)(Header));
+export default withRouter(connect(mapStateToProps, null)(ChatPageHeader));

@@ -2,6 +2,7 @@ import React from "react";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import ReactDOM from "react-dom";
 import App from "./Main";
+import axios from 'axios';
 
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";

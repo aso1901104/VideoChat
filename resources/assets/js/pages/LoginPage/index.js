@@ -3,18 +3,23 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import './loginPage.scss';
 import { setCurrentUser } from '../../actions/authen'
+import { withRouter } from 'react-router-dom'
 
-const LoginPage = ({ authen, setCurrentUser }) => {
+const LoginPage = (props) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    props.authen.currentUser && props.history.push('/create-room')
+  })
 
   const login = () => {
     axios.post('/user/login', {
       email,
       password,
     }).then((res) => {
-      setCurrentUser()
+      props.setCurrentUser()
     }).catch((e) => {
       console.log(e)
     })
@@ -55,4 +60,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginPage))

@@ -4,7 +4,11 @@ import './topPage.scss'
 
 import { connect } from 'react-redux';
 
-const TopPage = ({ authen }) => {
+const TopPage = (props) => {
+  if (props.authen.currentUser !== null) {
+    props.history.push('/create-room')
+    props.history.push('/login')
+  }
   return (
   <div className="top-page-wrapper">
     <div className="left-content">
