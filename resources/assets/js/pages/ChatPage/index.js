@@ -238,9 +238,12 @@ class ChatPage extends Component {
                 width={100}
               />
             }
-            <div className="innner-video-user-name">
-              <p>{this.state.atherUserName}</p>
-            </div>
+            {
+              this.state.atherUserName !== '' &&
+              <div className="innner-video-user-name">
+                <p>{this.state.atherUserName}</p>
+              </div>
+            }
           </div>
         </div>
       </div>)
