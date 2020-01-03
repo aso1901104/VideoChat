@@ -6,9 +6,25 @@ import { setCurrentUser } from '../../actions/authen'
 import { withRouter } from 'react-router-dom'
 
 const ProfilePage = (props) => {
+  const [selectedPage, setSelectedPage] = useState('account')
   return (
     <div className="profile-page-wrapper">
-      Profile
+      <div className="side-menu">
+        <ul className="list-wrapper">
+          <li onClick={() => setSelectedPage('account')} className="link-title">Account</li>
+          <li onClick={() => setSelectedPage('logout')} className="link-title">Log out</li>
+        </ul>
+      </div>
+      <div className="main-content">
+        {(() => {
+          switch (selectedPage) {
+            case 'account':
+              return <p>Account</p>
+            case 'logout':
+              return <p>LogOunt</p>
+          }
+        })()}
+      </div>
     </div>
   )
 }
