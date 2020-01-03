@@ -11,6 +11,7 @@ import ChatPage from "./pages/ChatPage";
 import TopPage from "./pages/TopPage";
 import LoginPage from './pages/LoginPage';
 import CreateRoomPage from './pages/CreateRoomPage'
+import ProfilePage from './pages/ProfilePage'
 
 const APP_URL = process.env.MIX_APP_URL;
 
@@ -30,6 +31,7 @@ class Main extends Component {
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/chat/:roomName" component={ChatPage} />
             <Route exact path="/create-room" component={CreateRoomPage} />
+            <Route exact path="/profile" component={ProfilePage} />
           </Switch>
           {!this.props.chat.isChatPage && <Footer />}
         </BrowserRouter>

@@ -13,7 +13,7 @@ const Header = (props) => {
         </div>
         <div className="right-content">
           {currentUser ?
-          <div className="user-info-wrapper">
+          <div onClick={() => props.history.push('/profile')} className="user-info-wrapper">
             <p className="user-name">{currentUser.name}</p>
             <img className="user-image" src="/images/analyzing-people-3441040_1280.jpg" alt=""/>
           </div>
