@@ -6,3 +6,7 @@ export const setCurrentUser = () => {
     })
   }
 }
+
+export const removeCurrentUser = () => {
+  return { type: 'REMOVE_CURRENT_USER' }
+}

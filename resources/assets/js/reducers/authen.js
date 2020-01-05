@@ -9,6 +9,11 @@ const authen = (state = initialState, action) => {
         ...state,
         currentUser: action.payload.currentUser,
       }
+    case 'REMOVE_CURRENT_USER':
+        return {
+          ...state,
+          currentUser: null,
+        }
     default:
       return state;
   }

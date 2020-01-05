@@ -6,6 +6,8 @@ const RequireAuthWrapper = WrapperedComponent => {
   const Component = () => class extends React.Component {
     constructor(props) {
       super(props)
+    }
+    componentWillMount() {
       this.props.currentUser === null && this.props.history.push('/login')
     }
     render () {

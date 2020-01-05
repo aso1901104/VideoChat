@@ -34,8 +34,8 @@
       .user-info-wrapper {
         display: flex;
         width: 40%;
-        justify-content: space-between;
         align-items: center;
+        cursor: pointer;
         .user-image {
           width: 32px;
           height: 32px;
@@ -44,6 +44,7 @@
         .user-name {
           font-weight: 700;
           color: #ffffff;
+          margin-right: 8px;
         }
       }
     }
@@ -53,6 +54,7 @@
       display: flex;
       align-items: center;
       .main-logo {
+        cursor: pointer;
         height: 70%;
       }
     }

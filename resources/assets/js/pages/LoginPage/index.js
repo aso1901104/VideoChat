@@ -11,7 +11,7 @@ const LoginPage = (props) => {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    props.authen.currentUser && props.history.push('/create-room')
+    props.authen.currentUser && props.history.goBack()
   })
 
   const login = () => {

@@ -33,7 +33,7 @@
       .user-info-wrapper {
         display: flex;
         width: 40%;
-        // justify-content: space-between;
+        cursor: pointer;
         align-items: center;
         .user-image {
           width: 32px;
@@ -47,12 +47,13 @@
       }
     }
     .left-content {
-        height: 80px;
+      height: 80px;
       width: 50%;
       display: flex;
       align-items: center;
       .main-logo {
         height: 70%;
+        cursor: pointer;
       }
     }
   }

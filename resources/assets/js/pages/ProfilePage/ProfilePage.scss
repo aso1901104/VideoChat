@@ -1,9 +1,10 @@
 .profile-page-wrapper  {
+  padding-top: 32px;
   width: 80%;
   margin: 0 auto;
   display: flex;
   .side-menu {
-    width: 30%;
+    width: 15%;
     .list-wrapper {
       margin-top: 120px;
       text-align: center;
@@ -12,6 +13,17 @@
         width: 60%;
         font-weight: 800;
         padding: 20px;
+        margin-bottom: 8px;
+      }
+      .active {
+        background-color: #2b189b;
+        border-radius: 8px;
+        color: #ffffff;
+        font-size: 18px;
+        width: 60%;
+        font-weight: 800;
+        padding: 20px;
+        margin-bottom: 8px;
       }
       .link-title:hover {
         background-color: rgba(204, 135, 135, 0.5);
@@ -20,6 +32,6 @@
     }
   }
   .main-content {
-    width: 70%;
+    width: 85%;
   }
 }
