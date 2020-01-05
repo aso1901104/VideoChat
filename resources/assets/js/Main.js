@@ -11,6 +11,7 @@ import { setCurrentUser } from './actions/authen'
 import ChatPage from './pages/ChatPage'
 import TopPage from './pages/TopPage'
 import LoginPage from './pages/LoginPage'
+import SignUpPage from './pages/SignUpPage'
 import CreateRoomPage from './pages/CreateRoomPage'
 import ProfilePage from './pages/ProfilePage'
 
@@ -31,6 +32,7 @@ class Main extends Component {
             <Route exact path="/chat/:roomName" component={ChatPage} />
             <Route exact path="/create-room" component={CreateRoomPage} />
             <Route exact path="/profile" component={ProfilePage} />
+            <Route exact path="/sign-up" component={SignUpPage} />
           </Switch>
           {!this.props.chat.isChatPage && <Footer />}
         </BrowserRouter>
