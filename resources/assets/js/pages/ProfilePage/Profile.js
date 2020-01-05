@@ -10,13 +10,18 @@ const Profile = (props) => {
   const copyRootCurrentUser = JSON.parse(currnetUserJson)
   const [currentUser, setCurrentUser] = useState(copyRootCurrentUser)
   const [isSubmit, setIsSubmit] = useState(false)
+  const [errors, setErrors] = useState({})
   const updateUserData = () => {
+    setErrors({})
     setIsSubmit(true)
     axios.post('/updateUserData', {
       name: currentUser.name,
       email: currentUser.email
     }).then((res) => {
       props.setCurrentUser()
+      setIsSubmit(false)
+    }).catch((e) => {
+      setErrors(e.response.data.errors)
       setIsSubmit(false)
     })
   }
@@ -59,6 +64,7 @@ const Profile = (props) => {
                 }}
               />
             </div>
+            {'name' in errors && <p className="error-message">{errors.name}</p>}
             {
               props.currentUser.name !== currentUser.name &&
               (
@@ -95,6 +101,7 @@ const Profile = (props) => {
                 }}
               />
             </div>
+            {'email' in errors && <p className="error-message">{errors.email}</p>}
             {
               props.currentUser.email !== currentUser.email &&
               (
