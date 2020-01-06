@@ -1,6 +1,19 @@
 .chat-page-container {
   background: rgb(0, 102, 84);
   height: calc(100% - 80px);
+  .copy-link-message {
+    padding: 8px;
+    text-align: center;
+    background: #ffffffff;
+    border-radius: 4px;
+    width: 60%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 4%;
+    left: 50%;
+    color: blue;
+    box-shadow: 2px 2px 2px 2px rgba(0,0,0,0.16);
+  }
   .video-container-wrapper {
     display: flex;
     height: calc(100% - 80px);
@@ -12,7 +25,7 @@
       margin: 0 auto;
       border-radius: 8px;
       position: relative;
-      background: black;
+      background: rgba(0,0,0,0.56);
       .loader {
         z-index: 30;
         position: absolute;
@@ -31,6 +44,67 @@
         color: #ffffffff;
         p {
           margin: 0;
+        }
+      }
+      .share-link-title {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 30%;
+        z-index: 10;
+        color: #ffffffff;
+        font-size: 3vmin;
+        white-space: nowrap;
+      }
+      .copy-link-button {
+        background: #f8e3c8;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 60%;
+        z-index: 10;
+        color: black;
+        padding: 8px;
+        font-size: 24px;
+        font-weight: 500;
+        border-radius: 4px;
+        width: 70%;
+        border: none;
+        outline: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        cursor: pointer;
+        margin-top: 16px;
+      }
+      .input-wrapper {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 50%;
+        z-index: 10;
+        margin-bottom: 16px;
+        background-color: #fff;
+        box-shadow: inset 0 0 0 1px transparent;
+        box-sizing: border-box;
+        width: 70%;
+        padding: 15px;
+        border: solid rgba(204, 204, 204, 1) 1px;
+        border-radius: 4px;
+        display: -ms-flexbox;
+        display: flex;
+        flex-flow: row nowrap;
+        .room-url-input {
+          flex: 1 1 auto;
+          font-size: inherit;
+          line-height: inherit;
+          color: inherit;
+          background-color: inherit;
+          padding: 0;
+          margin: 0;
+          width: 100%;
+          outline: none;
+          border: 0;
         }
       }
       .my-video {

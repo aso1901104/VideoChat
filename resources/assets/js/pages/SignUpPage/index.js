@@ -42,7 +42,7 @@ const SignUpPage = (props) => {
           <input className="sign-up-input" type="password"　placeholder="パスワード" value={password} onChange={e => setPassword(e.target.value)} />
         </div>
         <button className="sign-up-button" onClick={() => register()}>
-          サインイン
+          登録
         </button>
       </div>
     </div>
