@@ -13,6 +13,40 @@
     left: 50%;
     color: blue;
     box-shadow: 2px 2px 2px 2px rgba(0,0,0,0.16);
+    animation: cssAnimation 0s ease-in 5s forwards;
+  }
+  @keyframes cssAnimation { /*「fadeIn」と名前をそろえる*/
+    0% {opacity: 0} /*アニメーション開始時は完全に透過*/
+    5% {opacity: 0.25}
+    10% {opacity: 0.5}
+    15% {opacity: 0.75}
+    20% {opacity: 1}
+    30% {opacity: 1}
+    40% {opacity: 1}
+    50% {opacity: 1}
+    60% {opacity: 1}
+    70% {opacity: 1}
+    80% {opacity: 1}
+    81% {opacity: 0.95}
+    82% {opacity: 0.9}
+    83% {opacity: 0.85}
+    84% {opacity: 0.8}
+    85% {opacity: 0.75}
+    86% {opacity: 0.7}
+    87% {opacity: 0.65}
+    88% {opacity: 0.6}
+    89% {opacity: 0.55}
+    90% {opacity: 0.5}
+    91% {opacity: 0.45}
+    92% {opacity: 0.4}
+    93% {opacity: 0.35}
+    94% {opacity: 0.3}
+    95% {opacity: 0.25}
+    96% {opacity: 0.2}
+    97% {opacity: 0.15}
+    98% {opacity: 0.1}
+    99% {opacity: 0.05}
+    100% {opacity: 0} /*アニメーション終了時は透過しない*/
   }
   .video-container-wrapper {
     display: flex;

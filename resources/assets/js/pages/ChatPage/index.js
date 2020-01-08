@@ -11,6 +11,8 @@ import './chatPage.scss'
 import { setIsChatFlag } from '../../actions/chat'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import Loader from 'react-loader-spinner'
+import SimplePeer from 'simple-peer'
+import uuid from 'react-uuid'
 
 const APP_KEY = process.env.MIX_PUSHER_APP_KEY
 const APP_CLUSTER = process.env.MIX_PUSHER_APP_CLUSTER
@@ -30,7 +32,8 @@ class ChatPage extends Component {
       isRoomExists: false,
       atherUserName: '',
       isCallWait: false,
-      isTalking: false
+      isTalking: false,
+      copyLinkMidalItems: []
     }
 
     this.peers = {}
@@ -92,6 +95,10 @@ class ChatPage extends Component {
 
   copyLink () {
     navigator.clipboard.writeText(`${APP_URL}/chat/${this.props.match.params.roomName}`)
+    const array = [uuid()]
+    this.setState({
+      copyLinkMidalItems: array
+    })
   }
 
   initialVideoFunc () {
@@ -217,7 +224,14 @@ class ChatPage extends Component {
       this.state.isRoomExists
         ? (
           <div className="chat-page-container">
-            <div className="copy-link-message">リンクをコピーしました。部屋に招待する為にリンクをシェアしましょう。</div>
+            {
+              this.state.copyLinkMidalItems.map(item => {
+                return (
+                  <div key={item[0]} className="copy-link-message">リンクをコピーしました。部屋に招待する為にリンクをシェアしましょう。</div>
+                )
+              })
+            }
+
             <div className="video-container-wrapper">
               <div className="video-container">
                 <video
