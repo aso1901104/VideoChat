@@ -1,0 +1,8 @@
+.error-messages-wrapper {
+  background: rgba(252, 139, 139, 0.5);
+  border-radius: 4px;
+  padding: 16px;
+  .error-message {
+    color: red;
+  }
+}

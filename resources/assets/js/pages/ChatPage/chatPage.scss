@@ -13,10 +13,11 @@
     left: 50%;
     color: blue;
     box-shadow: 2px 2px 2px 2px rgba(0,0,0,0.16);
-    animation: cssAnimation 0s ease-in 5s forwards;
+    animation: cssAnimation 0s ease-in 2s forwards;
+
   }
-  @keyframes cssAnimation { /*「fadeIn」と名前をそろえる*/
-    0% {opacity: 0} /*アニメーション開始時は完全に透過*/
+  @keyframes cssAnimation {
+    0% {opacity: 0}
     5% {opacity: 0.25}
     10% {opacity: 0.5}
     15% {opacity: 0.75}
