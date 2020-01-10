@@ -1,20 +1,24 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import './SignUpPage.scss'
 import { setCurrentUser } from '../../actions/authen'
 import { withRouter } from 'react-router-dom'
+import ErrorMessages from '../../components/ErrorMessages'
 
 const SignUpPage = (props) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [errors, setErrors] = useState([])
 
   useEffect(() => {
     props.authen.currentUser && props.history.goBack()
   })
 
   const register = () => {
+    setErrors([])
     axios.post('/user/register', {
       name,
       email,
@@ -22,7 +26,7 @@ const SignUpPage = (props) => {
     }).then((res) => {
       props.setCurrentUser()
     }).catch((e) => {
-      console.log(e)
+      setErrors(e.response.data.errors)
     })
   }
   return (
@@ -41,6 +45,7 @@ const SignUpPage = (props) => {
         <div className="input-wrapper">
           <input className="sign-up-input" type="password"　placeholder="パスワード" value={password} onChange={e => setPassword(e.target.value)} />
         </div>
+        {errors.length !== 0 && ErrorMessages(errors)}
         <button className="sign-up-button" onClick={() => register()}>
           登録
         </button>
