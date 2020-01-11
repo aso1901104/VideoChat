@@ -11,7 +11,7 @@
         "gufy/pdftohtml-php": "~2",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0",
-        "league/flysystem-aws-s3-v3": "~1.0",
+        "league/flysystem-aws-s3-v3": "^1.0",
         "pusher/pusher-php-server": "^3.1",
         "tonchik-tm/pdf-to-html": "~1"
     },

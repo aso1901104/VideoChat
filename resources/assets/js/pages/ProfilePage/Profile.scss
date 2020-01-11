@@ -11,12 +11,68 @@
     background: #f8dbd5;
     border-radius: 8px;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16);
-    .user-avator {
-      width: 200px;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 8px;
-      display: block;
+    .user-avator-wrapper {
+      .user-avator {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+        display: block;
+      }
+      .button-wrapper {
+        text-align: center;
+        .upload-user-avator-label {
+            background: green;
+            color: #fff;
+            padding: 16px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 12px;
+            width: 100px;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 16px;
+          .upload-image-button {
+            display: none;
+          }
+        }
+      }
+      .button-flex-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-top: 16px;
+        .save-button {
+          background: rgb(0, 102, 84);
+          color: #fff;
+          padding: 16px;
+          font-size: 14px;
+          font-weight: 500;
+          border-radius: 12px;
+          width: 80px;
+          border: none;
+          outline: none;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          cursor: pointer;
+          margin-right: 8px;
+        }
+        .cancel-button {
+          background: red;
+          color: #fff;
+          padding: 16px;
+          font-size: 14px;
+          font-weight: 500;
+          border-radius: 12px;
+          width: 80px;
+          border: none;
+          outline: none;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          cursor: pointer;
+        }
+      }
     }
     .text-data {
       width: 100%;

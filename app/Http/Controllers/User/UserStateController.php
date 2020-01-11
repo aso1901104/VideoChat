@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
+use Storage;
 
 class UserStateController extends Controller
 {
@@ -30,6 +31,20 @@ class UserStateController extends Controller
         ]);
         return response()->json([
             'user' => $user,
+        ]);
+    }
+
+    public function uploadImage(Request $request)
+    {
+        $user = auth()->user();
+        $file = $request->file('img');
+        $path = Storage::disk('s3')->put('test/test1', $file, 'public');
+        $url = Storage::disk('s3')->url($path);
+        $user->update([
+            'pic_path' => $url,
+        ]);
+        return response()->json([
+            'url' => $url,
         ]);
     }
 }

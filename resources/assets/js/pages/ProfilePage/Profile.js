@@ -1,16 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import './Profile.scss'
 import { setCurrentUser } from '../../actions/authen'
 
+const createObjectURL = (window.URL || window.webkitURL).createObjectURL || window.createObjectURL
+
 const Profile = (props) => {
   const [selectedInput, setSelectedInput] = useState('')
-  const currnetUserJson = JSON.stringify(props.currentUser) // renderを走らせる為に記述
-  const copyRootCurrentUser = JSON.parse(currnetUserJson)
-  const [currentUser, setCurrentUser] = useState(copyRootCurrentUser)
+  const [currentUser, setCurrentUser] = useState(props.currentUser)
   const [isSubmit, setIsSubmit] = useState(false)
   const [errors, setErrors] = useState({})
+  const [imageUri, setImageUri] = useState(null)
+  const [selectedImageFile, setSelectedImageFile] = useState(null)
+  useEffect(() => {
+    setCurrentUser(props.currentUser)
+  }, [props.currentUser])
   const updateUserData = () => {
     setErrors({})
     setIsSubmit(true)
@@ -38,15 +43,85 @@ const Profile = (props) => {
       default:
         break
     }
-
     setCurrentUser(copyCurrentUser)
+  }
+  const imageChange = (event) => {
+    const files = event.target.files
+    const imageUri = createObjectURL(files[0])
+    setSelectedImageFile(files[0])
+    const json = JSON.stringify(currentUser) // renderを走らせる為に記述
+    const copyCurrentUser = JSON.parse(json)
+    copyCurrentUser.pic_path = null
+    setCurrentUser(copyCurrentUser)
+    setImageUri(imageUri)
+  }
+  const uploadImage = () => {
+    const json = JSON.stringify(currentUser) // renderを走らせる為に記述
+    const copyCurrentUser = JSON.parse(json)
+    setImageUri(copyCurrentUser.pic_path)
+    copyCurrentUser.pic_path = null
+    setCurrentUser(copyCurrentUser)
+    const formData = new FormData()
+    formData.append('img', selectedImageFile)
+    axios.post('/uploadImage', formData).then((res) => {
+      const json = JSON.stringify(currentUser) // renderを走らせる為に記述
+      const copyCurrentUser = JSON.parse(json)
+      copyCurrentUser.pic_path = res.data.url
+      setCurrentUser(copyCurrentUser)
+      setImageUri(null)
+      props.setCurrentUser()
+    })
   }
   return currentUser &&
     (
       <div className="profile-content-wrapper">
         <h1 className="main-title">Profile</h1>
         <div className="profile-data-wrapper">
-          <img className="user-avator" src="https://lh3.googleusercontent.com/a-/AAuE7mArD_wUy4YxwxitGOmT-bIXTdOkua9g7mBsCxLe" />
+          <div className="user-avator-wrapper">
+            <img className="user-avator" src={
+              currentUser.pic_path && imageUri === null
+                ? `${currentUser.pic_path}`
+                : imageUri
+                  ? `${imageUri}`
+                  : 'https://d2mx3cwqu0goya.cloudfront.net/common/f_f_object_123_s256_f_object_123_0bg.png'}
+            />
+
+            {
+              (imageUri === null &&
+                (
+                  <div className="button-wrapper">
+                    <label className="upload-user-avator-label" htmlFor="upload-user-avator">
+                      Upload Image
+                      <input
+                        id="upload-user-avator"
+                        accept="image/*"
+                        type="file"
+                        className="upload-image-button"
+                        onChange={(e) => imageChange(e)}
+                      />
+                    </label>
+                  </div>
+                )
+              ) ||
+                (
+                  <div className="button-flex-wrapper">
+                    <button
+                      className="save-button"
+                      onClick={() => uploadImage()}
+                    >
+                      SAVE
+                    </button>
+                    <button
+                      className="cancel-button"
+                      onClick={() => setImageUri(null)}
+                    >
+                      CANCEL
+                    </button>
+                  </div>
+                )
+            }
+
+          </div>
           <div className="text-data">
             <p className="text-data-title">Name</p>
             <div className={isSubmit ? 'input-wrapper none-active' : selectedInput === 'name' ? 'input-wrapper selected-input' : 'input-wrapper'}>
@@ -127,6 +202,12 @@ const Profile = (props) => {
     )
 }
 
+const mapStateToProps = state => {
+  return {
+    currnetUser: state.authen.currentUser
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     setCurrentUser: () => {
@@ -135,4 +216,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Profile)
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)
