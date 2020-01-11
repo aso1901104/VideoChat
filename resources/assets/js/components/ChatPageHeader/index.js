@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import './header.scss'
@@ -15,7 +16,7 @@ const ChatPageHeader = (props) => {
           {currentUser
             ? <div className="user-info-wrapper">
               <p className="user-name">{currentUser.name}</p>
-              <img className="user-image" src={currentUser.pic_path} alt=""/>
+              <img className="user-image" src={currentUser.pic_path ? currentUser.pic_path : 'https://d2mx3cwqu0goya.cloudfront.net/common/f_f_object_123_s256_f_object_123_0bg.png'} alt=""/>
             </div>
             : <React.Fragment>
               <Link className="login-button" to="/login"><h2>ログイン</h2></Link>

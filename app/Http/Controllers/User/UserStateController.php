@@ -38,7 +38,7 @@ class UserStateController extends Controller
     {
         $user = auth()->user();
         $file = $request->file('img');
-        $path = Storage::disk('s3')->put('test/test1', $file, 'public');
+        $path = Storage::disk('s3')->put("userThumbnail/user{$user->id}", $file, 'public');
         $url = Storage::disk('s3')->url($path);
         $user->update([
             'pic_path' => $url,
