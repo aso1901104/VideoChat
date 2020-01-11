@@ -16,7 +16,7 @@ const Header = (props) => {
           {currentUser
             ? <div onClick={() => props.history.push('/profile')} className="user-info-wrapper">
               <p className="user-name">{currentUser.name}</p>
-              <img className="user-image" src="https://lh3.googleusercontent.com/a-/AAuE7mArD_wUy4YxwxitGOmT-bIXTdOkua9g7mBsCxLe" alt=""/>
+              <img className="user-image" src={currentUser.pic_path} alt=""/>
             </div>
             : <React.Fragment>
               <Link className="login-button" to="/login"><h2>ログイン</h2></Link>
