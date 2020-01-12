@@ -13,6 +13,6 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         'http://localhost:83/*',
-        'http://http://video-chat-portfolio.work/*',
+        'http://video-chat-portfolio.work/*',
     ];
 }
