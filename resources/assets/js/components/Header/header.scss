@@ -65,7 +65,7 @@
     padding: 0px;
     .main-container {
       height: 80px;
-      width: 80%;
+      width: 90%;
       margin: 0 auto;
       display: flex;
       .right-content {
@@ -96,15 +96,18 @@
         }
         .user-info-wrapper {
           display: flex;
-          width: 40%;
+          width: 100%;
           cursor: pointer;
           align-items: center;
+          justify-content: flex-end;
           .user-image {
             width: 32px;
             height: 32px;
             border-radius: 50%;
           }
           .user-name {
+            white-space: nowrap;
+            font-size: 12px;
             font-weight: 700;
             margin-right: 8px;
           }

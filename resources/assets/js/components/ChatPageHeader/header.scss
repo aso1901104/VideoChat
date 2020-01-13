@@ -60,3 +60,72 @@
     }
   }
 }
+
+
+@media screen and (max-width: 680px) {
+  .chat-page-header-wrapper {
+    height: 50px;
+    padding: 0px;
+    background: rgb(0, 102, 84);
+    .main-container {
+      height: 80px;
+      width: 90%;
+      margin: 0 auto;
+      display: flex;
+      .right-content {
+        height: 50px;
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        .sign-up-button {
+          display: inline-block;
+          text-decoration: none;
+          padding: 8px;
+          background: #ff2e63;
+          color: #ffffff;
+          border-radius: 30px;
+          font-size: 16px;
+          font-weight: 900;
+          width: 25%;
+          text-align: center;
+        }
+        .login-button {
+          text-decoration: none;
+          font-size: 14px;
+          color: #222;
+          margin-right: 16px;
+        }
+        .user-info-wrapper {
+          display: flex;
+          width: 100%;
+          align-items: center;
+          justify-content: flex-end;
+          cursor: pointer;
+          .user-image {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+          }
+          .user-name {
+            white-space: nowrap;
+            font-weight: 700;
+            font-size: 12px;
+            color: #ffffff;
+            margin-right: 8px;
+          }
+        }
+      }
+      .left-content {
+        height: 50px;
+        width: 50%;
+        display: flex;
+        align-items: center;
+        .main-logo {
+          cursor: pointer;
+          height: 70%;
+        }
+      }
+    }
+  }
+}
