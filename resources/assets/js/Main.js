@@ -34,7 +34,6 @@ class Main extends Component {
             <Route exact path="/profile" component={ProfilePage} />
             <Route exact path="/sign-up" component={SignUpPage} />
           </Switch>
-          {!this.props.chat.isChatPage && <Footer />}
         </BrowserRouter>
       </div>
     )
