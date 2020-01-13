@@ -14,10 +14,12 @@ const ChatPageHeader = (props) => {
         </div>
         <div className="right-content">
           {currentUser
-            ? <div className="user-info-wrapper">
-              <p className="user-name">{currentUser.name}</p>
-              <img className="user-image" src={currentUser.pic_path ? currentUser.pic_path : 'https://d2mx3cwqu0goya.cloudfront.net/common/f_f_object_123_s256_f_object_123_0bg.png'} alt=""/>
-            </div>
+            ? (
+              <div onClick={() => props.history.push('/profile')} className="user-info-wrapper">
+                <p className="user-name">{currentUser.name}</p>
+                <img className="user-image" src={currentUser.pic_path ? currentUser.pic_path : 'https://d2mx3cwqu0goya.cloudfront.net/common/f_f_object_123_s256_f_object_123_0bg.png'} alt=""/>
+              </div>
+            )
             : <React.Fragment>
               <Link className="login-button" to="/login"><h2>ログイン</h2></Link>
               <Link className="sign-up-button" to="/sign-up">始めましょう</Link>

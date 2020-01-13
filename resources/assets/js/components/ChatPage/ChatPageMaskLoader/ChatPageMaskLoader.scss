@@ -1,0 +1,11 @@
+.mask-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 80px);
+  background: rgb(0, 102, 84);
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 800;
+}

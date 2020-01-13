@@ -85,7 +85,6 @@ const Profile = (props) => {
                   ? `${imageUri}`
                   : 'https://d2mx3cwqu0goya.cloudfront.net/common/f_f_object_123_s256_f_object_123_0bg.png'}
             />
-
             {
               (imageUri === null &&
                 (

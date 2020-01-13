@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import axios from 'axios';
-import './ProfilePage.scss';
-import { withRouter } from 'react-router-dom';
-import { setCurrentUser, removeCurrentUser } from '../../actions/authen';
-import RequireAuthWrapper from '../../components/RequireAuthWrapper';
-import Profile from './Profile';
+import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux'
+import axios from 'axios'
+import './ProfilePage.scss'
+import { withRouter } from 'react-router-dom'
+import { setCurrentUser, removeCurrentUser } from '../../actions/authen'
+import RequireAuthWrapper from '../../components/RequireAuthWrapper'
+import Profile from './Profile'
 
 const ProfilePage = RequireAuthWrapper((props) => {
-  const [selectedPage, setSelectedPage] = useState('account');
+  const [selectedPage, setSelectedPage] = useState('account')
   const logout = () => {
     axios.post('/user/logout').then(() => {
-      props.removeCurrentUser();
-      props.history.push('/login');
-    });
-  };
+      props.removeCurrentUser()
+      props.history.push('/login')
+    })
+  }
   return (
     <div className="profile-page-wrapper">
       <div className="side-menu">
@@ -27,8 +27,8 @@ const ProfilePage = RequireAuthWrapper((props) => {
           </li>
           <li
             onClick={() => {
-              setSelectedPage('logout');
-              logout();
+              setSelectedPage('logout')
+              logout()
             }}
             className={selectedPage === 'logout' ? 'active' : 'link-title'}
           >
@@ -40,29 +40,27 @@ const ProfilePage = RequireAuthWrapper((props) => {
         {(() => {
           switch (selectedPage) {
             case 'account':
-              return <Profile currentUser={props.authen.currentUser} />;
-            case 'logout':
-              return <p>LogOunt</p>;
+              return <Profile currentUser={props.authen.currentUser} />
+            default:
+              break
           }
         })()}
       </div>
     </div>
-  );
-});
-
+  )
+})
 
 const mapStateToProps = (state) => ({
-  authen: state.authen,
-});
+  authen: state.authen
+})
 
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: () => {
-    dispatch(setCurrentUser());
+    dispatch(setCurrentUser())
   },
   removeCurrentUser: () => {
-    dispatch(removeCurrentUser());
-  },
-});
+    dispatch(removeCurrentUser())
+  }
+})
 
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfilePage));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfilePage))

@@ -13,6 +13,7 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import Loader from 'react-loader-spinner'
 import SimplePeer from 'simple-peer'
 import uuid from 'react-uuid'
+import ChatPageMaskLoader from '../../components/ChatPage/ChatPageMaskLoader'
 
 const APP_KEY = process.env.MIX_PUSHER_APP_KEY
 const APP_CLUSTER = process.env.MIX_PUSHER_APP_CLUSTER
@@ -30,6 +31,7 @@ class ChatPage extends Component {
       testFile: '',
       user: null,
       isRoomExists: false,
+      isLoading: true,
       atherUserName: '',
       isCallWait: false,
       isTalking: false,
@@ -53,7 +55,8 @@ class ChatPage extends Component {
     }).then((res) => {
       console.log(res.data.isExists)
       this.setState({
-        isRoomExists: res.data.isExists
+        isRoomExists: res.data.isExists,
+        isLoading: false
       })
       if (res.data.isExists) {
         axios.get('/getCurrentUser').then((res) => {
@@ -221,41 +224,44 @@ class ChatPage extends Component {
 
   render () {
     return (
-      this.state.isRoomExists
-        ? (
-          <div className="chat-page-container">
-            {
-              this.state.copyLinkMidalItems.map(item => {
-                return (
-                  <div key={item[0]} className="copy-link-message">リンクをコピーしました。部屋に招待する為にリンクをシェアしましょう。</div>
-                )
-              })
-            }
+      this.state.isLoading ? (
+        <ChatPageMaskLoader />
+      )
+        : this.state.isRoomExists
+          ? (
+            <div className="chat-page-container">
+              {
+                this.state.copyLinkMidalItems.map(item => {
+                  return (
+                    <div key={item[0]} className="copy-link-message">リンクをコピーしました。部屋に招待する為にリンクをシェアしましょう。</div>
+                  )
+                })
+              }
 
-            <div className="video-container-wrapper">
-              <div className="video-container">
-                <video
-                  id="test"
-                  className="my-video"
-                  muted
-                  ref={ref => {
-                    this.myVideo = ref
-                  }}
-                />
-                <div className="innner-video-user-name">
-                  <p>{this.state.user && this.state.user.name} (you)</p>
+              <div className="video-container-wrapper">
+                <div className="video-container">
+                  <video
+                    id="test"
+                    className="my-video"
+                    muted
+                    ref={ref => {
+                      this.myVideo = ref
+                    }}
+                  />
+                  <div className="innner-video-user-name">
+                    <p>{this.state.user && this.state.user.name} (you)</p>
+                  </div>
                 </div>
-              </div>
-              <div className="video-container">
-                <video
-                  id="test2"
-                  className="user-video"
-                  ref={ref => {
-                    this.userVideo = ref
-                  }}
-                />
-                {
-                  this.state.isCallWait &&
+                <div className="video-container">
+                  <video
+                    id="test2"
+                    className="user-video"
+                    ref={ref => {
+                      this.userVideo = ref
+                    }}
+                  />
+                  {
+                    this.state.isCallWait &&
               <Loader
                 className="loader"
                 type="Oval"
@@ -263,33 +269,33 @@ class ChatPage extends Component {
                 height={100}
                 width={100}
               />
-                }
-                {
-                  this.state.atherUserName !== '' &&
+                  }
+                  {
+                    this.state.atherUserName !== '' &&
               <div className="innner-video-user-name">
                 <p>{this.state.atherUserName}</p>
               </div>
-                }
-                {
-                  !this.state.isTalking && (
-                    <React.Fragment>
-                      <div className="share-link-title">Share link to start a meeting</div>
-                      <div className="input-wrapper">
-                        <input className="room-url-input" type="text" readOnly value={`${APP_URL}/chat/${this.props.match.params.roomName}`}/>
-                      </div>
-                      <button
-                        className="copy-link-button"
-                        onClick={() => this.copyLink()}
-                      >
+                  }
+                  {
+                    !this.state.isTalking && (
+                      <React.Fragment>
+                        <div className="share-link-title">Share link to start a meeting</div>
+                        <div className="input-wrapper">
+                          <input className="room-url-input" type="text" readOnly value={`${APP_URL}/chat/${this.props.match.params.roomName}`}/>
+                        </div>
+                        <button
+                          className="copy-link-button"
+                          onClick={() => this.copyLink()}
+                        >
                       Copy link
-                      </button>
-                    </React.Fragment>
-                  )
-                }
+                        </button>
+                      </React.Fragment>
+                    )
+                  }
+                </div>
               </div>
-            </div>
-          </div>)
-        : <NoRoom roomName={this.props.match.params.roomName} />
+            </div>)
+          : <NoRoom roomName={this.props.match.params.roomName} />
     )
   }
 }
