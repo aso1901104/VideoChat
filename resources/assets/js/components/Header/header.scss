@@ -58,3 +58,68 @@
     }
   }
 }
+
+@media screen and (max-width: 680px) {
+  .header-wrapper {
+    height: 50px;
+    padding: 0px;
+    .main-container {
+      height: 80px;
+      width: 80%;
+      margin: 0 auto;
+      display: flex;
+      .right-content {
+        height: 50px;
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        .sign-up-button {
+          display: inline-block;
+          text-decoration: none;
+          padding: 8px;
+          background: #ff2e63;
+          color: #ffffff;
+          border-radius: 30px;
+          font-size: 12px;
+          font-weight: 900;
+          width: 50%;
+          text-align: center;
+          white-space: nowrap;
+        }
+        .login-button {
+          text-decoration: none;
+          font-size: 12px;
+          color: #222;
+          margin-right: 8px;
+          white-space: nowrap;
+        }
+        .user-info-wrapper {
+          display: flex;
+          width: 40%;
+          cursor: pointer;
+          align-items: center;
+          .user-image {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+          }
+          .user-name {
+            font-weight: 700;
+            margin-right: 8px;
+          }
+        }
+      }
+      .left-content {
+        height: 50px;
+        width: 50%;
+        display: flex;
+        align-items: center;
+        .main-logo {
+          height: 70%;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
