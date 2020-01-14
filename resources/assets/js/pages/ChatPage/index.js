@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { Component, useState } from 'react'
+import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { setCurrentUser } from '../../actions/authen'
@@ -11,7 +11,6 @@ import './chatPage.scss'
 import { setIsChatFlag } from '../../actions/chat'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import Loader from 'react-loader-spinner'
-import SimplePeer from 'simple-peer'
 import uuid from 'react-uuid'
 import ChatPageMaskLoader from '../../components/ChatPage/ChatPageMaskLoader'
 

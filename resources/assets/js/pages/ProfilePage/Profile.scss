@@ -154,3 +154,164 @@
     }
   }
 }
+
+@media screen and (max-width: 680px) {
+  .profile-content-wrapper {
+    .main-title {
+      text-align: center;
+      font-size: 32px;
+    }
+    .profile-data-wrapper {
+      width: 70%;
+      margin: 16px auto;
+      display: block;
+      padding: 32px;
+      background: #f8dbd5;
+      border-radius: 8px;
+      box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16);
+      .user-avator-wrapper {
+        .user-avator {
+          width: 200px;
+          height: 200px;
+          object-fit: cover;
+          border-radius: 8px;
+          display: block;
+          margin: 0 auto;
+        }
+        .button-wrapper {
+          text-align: center;
+          .upload-user-avator-label {
+              background: green;
+              color: #fff;
+              padding: 16px;
+              font-size: 14px;
+              font-weight: 500;
+              border-radius: 12px;
+              width: 100px;
+              cursor: pointer;
+              display: inline-block;
+              margin-top: 16px;
+            .upload-image-button {
+              display: none;
+            }
+          }
+        }
+        .button-flex-wrapper {
+          display: flex;
+          justify-content: center;
+          margin-top: 16px;
+          .save-button {
+            background: rgb(0, 102, 84);
+            color: #fff;
+            padding: 16px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 12px;
+            width: 80px;
+            border: none;
+            outline: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            cursor: pointer;
+            margin-right: 8px;
+          }
+          .cancel-button {
+            background: red;
+            color: #fff;
+            padding: 16px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 12px;
+            width: 80px;
+            border: none;
+            outline: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            cursor: pointer;
+          }
+        }
+      }
+      .text-data {
+        width: 100%;
+        margin-left: 0px;
+        margin-top: 16px;
+        .text-data-title {
+          font-size: 24px;
+          margin-bottom: 8px;
+        }
+        .input-wrapper {
+          margin-bottom: 16px;
+          background-color: #fff;
+          box-shadow: inset 0 0 0 1px transparent;
+          box-sizing: border-box;
+          width: 100%;
+          padding: 15px;
+          border: solid rgba(204, 204, 204, 1) 1px;
+          border-radius: 4px;
+          display: -ms-flexbox;
+          display: flex;
+          flex-flow: row nowrap;
+          .input-item {
+            flex: 1 1 auto;
+            font-size: inherit;
+            line-height: inherit;
+            color: inherit;
+            background-color: inherit;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            outline: none;
+            border: 0;
+          }
+        }
+        .none-active {
+          background: gray;
+        }
+        .selected-input {
+          border: solid rgb(42, 17, 180) 2px;
+        }
+        .error-message {
+          color: red;
+          margin-bottom: 8px;
+          font-size: 16px;
+        }
+        .button-area {
+          margin-bottom: 8px;
+          .cancel-button {
+            background: red;
+            color: #fff;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 12px;
+            width: 20%;
+            border: none;
+            outline: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            cursor: pointer;
+            margin-right: 8px;
+          }
+          .save-button {
+            background: rgb(0, 102, 84);
+            color: #fff;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 12px;
+            width: 20%;
+            border: none;
+            outline: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}

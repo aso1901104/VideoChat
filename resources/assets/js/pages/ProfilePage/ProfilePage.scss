@@ -35,3 +35,45 @@
     width: 85%;
   }
 }
+
+@media screen and (max-width: 680px) {
+  .profile-page-wrapper  {
+    padding-top: 8px;
+    width: 95%;
+    margin: 0 auto;
+    display: block;
+    .side-menu {
+      width: 100%;
+      .list-wrapper {
+        margin-top: 0px;
+        text-align: center;
+        display: flex;
+        justify-content: space-between;
+        .link-title {
+          font-size: 14px;
+          width: 60%;
+          font-weight: 800;
+          padding: 8px;
+          margin-bottom: 8px;
+        }
+        .active {
+          background-color: #2b189b;
+          border-radius: 8px;
+          color: #ffffff;
+          font-size: 14px;
+          width: 60%;
+          font-weight: 800;
+          padding: 8px;
+        }
+        .link-title:hover {
+          background-color: rgba(204, 135, 135, 0.5);
+          border-radius: 8px;
+        }
+      }
+    }
+    .main-content {
+      padding-top: 8px;
+      width: 100%;
+    }
+  }
+}
