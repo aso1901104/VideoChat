@@ -59,7 +59,6 @@ class ChatPage extends Component {
       })
       if (res.data.isExists) {
         axios.get('/getCurrentUser').then((res) => {
-          console.log('data', res.data)
           this.setState({
             user: res.data.currentUser
           }, () => {
@@ -137,6 +136,7 @@ class ChatPage extends Component {
       members.each((member) => {
         console.log(member)
         if (member.id != this.state.user.id) {
+          console.log('kita')
           this.callTo(member.id)
           this.setState({
             atherUserName: member.info.name,
@@ -300,7 +300,6 @@ class ChatPage extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state)
   return {
     currentUser: state.authen.currentUser
   }
