@@ -8,14 +8,13 @@ const createObjectURL = (window.URL || window.webkitURL).createObjectURL || wind
 
 const Profile = (props) => {
   const [selectedInput, setSelectedInput] = useState('')
-  const [currentUser, setCurrentUser] = useState(props.currentUser)
+  const json = JSON.stringify(props.currentUser) // renderを走らせる為に記述
+  const copyCurrentUser = JSON.parse(json)
+  const [currentUser, setCurrentUser] = useState(copyCurrentUser)
   const [isSubmit, setIsSubmit] = useState(false)
   const [errors, setErrors] = useState({})
   const [imageUri, setImageUri] = useState(null)
   const [selectedImageFile, setSelectedImageFile] = useState(null)
-  useEffect(() => {
-    setCurrentUser(props.currentUser)
-  }, [props.currentUser])
   const updateUserData = () => {
     setErrors({})
     setIsSubmit(true)
