@@ -38,3 +38,46 @@ ul {
     background: rgb(191, 191, 191);
   }
 }
+
+@media screen and (max-width: 680px) {
+  ul {
+    list-style: none;
+    .room-list-content-wrapper {
+      position: relative;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      border-radius: 4px;
+      padding: 8px;
+      .link-area {
+        .icon {
+          margin-right: 12px;
+          margin-left: 12px;
+        }
+        display: flex;
+        color:#444;
+        width: 100%;
+        text-decoration: none;
+        align-items: center;
+        height: 42px;
+      }
+      .close-icon-area {
+        position: absolute;
+        top: 50%;
+        right: 12px;
+        transform: translateY(-50%);
+        border-radius: 50%;
+        padding: 4px;
+        .close-icon {
+          font-size: 24px;
+        }
+      }
+      .close-icon-area:hover {
+        background: gray;
+      }
+    }
+    .room-list-content-wrapper:hover {
+      background: rgb(191, 191, 191);
+    }
+  }
+}
