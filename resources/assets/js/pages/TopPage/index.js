@@ -5,6 +5,8 @@ import './topPage.scss'
 
 import { connect } from 'react-redux'
 
+import moment from 'moment'
+
 const TopPage = (props) => {
   if (props.authen.currentUser !== null) {
     props.history.push('/create-room')
@@ -27,7 +29,7 @@ const TopPage = (props) => {
         </div>
       </div>
       <div className="top-page-footer">
-        <p>Copyright © 2020. All rights reserved</p>
+        <p>Copyright © {moment().format('YYYY')}. All rights reserved</p>
       </div>
     </div>
   )
