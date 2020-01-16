@@ -13,6 +13,11 @@ return [
     | to have a conventional place to find your various credentials.
     |
     */
+    'facebook' => [
+        'client_id' => env('FACEBOOK_API_ID'),
+        'client_secret' => env('FACEBOOK_API_SECRET'),
+        'redirect' => env('FACEBOOK_CALLBACKURL'),
+    ],
 
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),

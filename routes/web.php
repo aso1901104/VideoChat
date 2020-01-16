@@ -5,6 +5,9 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/register', 'User\RegisterController@register');
 });
 
+Route::get('/fblogin', 'User\SnsAuth\FacebookAuthController@facebookLogin');
+Route::get('/login/facebook/callback', 'User\SnsAuth\FacebookAuthController@handleProviderCallback');
+
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/getCurrentUser', 'HomeController@getCurrentUser')->middleware('auth');
 Route::post('/roomExistsChk', 'HomeController@roomExistsChk');

@@ -28,6 +28,10 @@ const LoginPage = (props) => {
       setErrors(e.response.data.errors)
     })
   }
+
+  const testFbLogin = () => {
+    window.location.href = '/fblogin'
+  }
   return (
     <div className="login-page-wrapper">
       <div className="login-form-wrapper">
@@ -44,6 +48,7 @@ const LoginPage = (props) => {
         <button className="login-button" onClick={() => login()}>
           ログイン
         </button>
+        <p onClick={() => testFbLogin()}>aaaaa</p>
       </div>
     </div>
   )
