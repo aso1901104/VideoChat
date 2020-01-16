@@ -20,7 +20,8 @@ const LoginPage = (props) => {
     setErrors([])
     axios.post('/user/login', {
       email,
-      password
+      password,
+      remember: true
     }).then((res) => {
       props.setCurrentUser()
     }).catch((e) => {
