@@ -1,6 +1,6 @@
 
 const initialState = {
-  isChatPage: false,
+  isChatPage: false
 }
 
 const chat = (state = initialState, action) => {
@@ -8,11 +8,11 @@ const chat = (state = initialState, action) => {
     case 'SET_CHAT_PAGE':
       return {
         ...state,
-        isChatPage: action.payload.isChatPage,
+        isChatPage: action.payload.isChatPage
       }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default chat;
+export default chat

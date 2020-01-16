@@ -85,13 +85,15 @@ class ChatPage extends Component {
 
   componentWillUnmount () {
     this.props.setIsChatFlag(false)
-    this.state.user.stream.getVideoTracks().forEach((track) => {
-      track.stop()
-    })
-    this.state.user.stream.getAudioTracks().forEach((track) => {
-      track.stop()
-    })
-    this.pusher.unsubscribe(`presence-video-channel-${this.props.match.params.roomName}`)
+    if (this.state.user && 'stream' in this.state.user) {
+      this.state.user.stream.getVideoTracks().forEach((track) => {
+        track.stop()
+      })
+      this.state.user.stream.getAudioTracks().forEach((track) => {
+        track.stop()
+      })
+      this.pusher.unsubscribe(`presence-video-channel-${this.props.match.params.roomName}`)
+    }
   }
 
   copyLink () {
@@ -163,10 +165,8 @@ class ChatPage extends Component {
         this.setState({
           otherUserId: signal.userId
         })
-
         peer = this.startPeer(signal.userId, false)
       }
-
       peer.signal(signal.data)
     })
   }
