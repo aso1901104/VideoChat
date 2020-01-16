@@ -6,6 +6,7 @@ import './loginPage.scss'
 import { setCurrentUser } from '../../actions/authen'
 import { withRouter } from 'react-router-dom'
 import ErrorMessages from '../../components/ErrorMessages'
+import FacebookLoginButton from '../../components/FacebookLoginButton'
 
 const LoginPage = (props) => {
   const [email, setEmail] = useState('')
@@ -28,14 +29,12 @@ const LoginPage = (props) => {
       setErrors(e.response.data.errors)
     })
   }
-
-  const testFbLogin = () => {
-    window.location.href = '/fblogin'
-  }
   return (
     <div className="login-page-wrapper">
       <div className="login-form-wrapper">
         <h2 className="login-title">Login</h2>
+        <FacebookLoginButton />
+        <h2 style={{ textAlign: 'center' }}>OR</h2>
         <h3 className="input-title">Email</h3>
         <div className="input-wrapper">
           <input className="login-input" type="email" placeholder="メールアドレス" value={email} onChange={e => setEmail(e.target.value)} />
@@ -48,7 +47,6 @@ const LoginPage = (props) => {
         <button className="login-button" onClick={() => login()}>
           ログイン
         </button>
-        <p onClick={() => testFbLogin()}>aaaaa</p>
       </div>
     </div>
   )

@@ -30,7 +30,7 @@ class FacebookAuthController extends Controller
             ->first();
         if ($checkIfExist) {
             Auth::login($checkIfExist, true);
-            return redirect()->secure('/');
+            return redirect()->secure('/create-room');
         } else {
             $chkEmailExits = User::where('email', $input['email'])->first();
             if ($chkEmailExits) {
@@ -39,7 +39,7 @@ class FacebookAuthController extends Controller
             } else {
                 $nowCreatedUser = User::create($input);
                 Auth::login($nowCreatedUser, true);
-                return redirect()->secure('/');
+                return redirect()->secure('/create-room');
             }
         }
     }
