@@ -16,7 +16,7 @@ class FacebookAuthController extends Controller
         return Socialite::driver('facebook')->redirect();
     }
     //Callback処理
-    public function handleProviderCallback()
+    public function handleProviderCallback(Request $request)
     {
         //ソーシャルサービス（情報）を取得
         $userSocial = Socialite::driver('facebook')->stateless()->user();
@@ -34,8 +34,8 @@ class FacebookAuthController extends Controller
         } else {
             $chkEmailExits = User::where('email', $input['email'])->first();
             if ($chkEmailExits) {
-                session()->flash('flash_message', 'Email này đã được sử dụng cho tài khoản khác');
-                return redirect()->secure('/login');
+                session()->flash('flash_message', 'お使いのfacebookアカウントのEmailアドレスは既に使われています。');
+                return redirect()->secure('/sign-up');
             } else {
                 $nowCreatedUser = User::create($input);
                 Auth::login($nowCreatedUser, true);

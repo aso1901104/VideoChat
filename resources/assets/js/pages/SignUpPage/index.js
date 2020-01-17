@@ -7,6 +7,8 @@ import { setCurrentUser } from '../../actions/authen'
 import { withRouter } from 'react-router-dom'
 import ErrorMessages from '../../components/ErrorMessages'
 
+import FacebookLoginButton from '../../components/FacebookLoginButton'
+
 const SignUpPage = (props) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -33,6 +35,8 @@ const SignUpPage = (props) => {
     <div className="sign-up-page-wrapper">
       <div className="sign-up-form-wrapper">
         <h2 className="sign-up-title">Sign Up</h2>
+        <FacebookLoginButton />
+        {window.facebookLoginError && ErrorMessages(window.facebookLoginError)}
         <h3 className="input-title">Name</h3>
         <div className="input-wrapper">
           <input className="sign-up-input" type="text" placeholder="氏名" value={name} onChange={e => setName(e.target.value)} />

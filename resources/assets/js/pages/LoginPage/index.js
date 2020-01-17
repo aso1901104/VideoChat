@@ -34,7 +34,8 @@ const LoginPage = (props) => {
       <div className="login-form-wrapper">
         <h2 className="login-title">Login</h2>
         <FacebookLoginButton />
-        <h2 style={{ textAlign: 'center' }}>OR</h2>
+        {window.facebookLoginError && ErrorMessages(window.facebookLoginError)}
+        <h2 className="or-text">OR</h2>
         <h3 className="input-title">Email</h3>
         <div className="input-wrapper">
           <input className="login-input" type="email" placeholder="メールアドレス" value={email} onChange={e => setEmail(e.target.value)} />

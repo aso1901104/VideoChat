@@ -18,10 +18,40 @@
     -moz-appearance: none;
     appearance: none;
     cursor: pointer;
-    margin-top: 16px;
+    margin: 16px auto;
     .icon {
       font-size: 24px;
       margin-right: 16px;
+    }
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .facebook-login-wrapper {
+    display: flex;
+    justify-content: center;
+    .facebook-login-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #3977f2;
+      color: #fff;
+      padding: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      border-radius: 4px;
+      width: 70%;
+      border: none;
+      outline: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      margin: 16px auto;
+      .icon {
+        font-size: 24px;
+        margin-right: 16px;
+      }
     }
   }
 }

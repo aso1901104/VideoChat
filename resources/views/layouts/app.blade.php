@@ -12,11 +12,15 @@
 	@if(auth()->user())
 		<script>
             window.user = {
-                id: {{ auth()->user()->id }},
+                id: '{{ auth()->user()->id }}',
                 name: '{{ auth()->user()->name }}',
             };
 		</script>
-	@endif
+    @endif
+    <script>
+        '{{ session('flash_message') }}' &&
+        (window.facebookLoginError = { errors: ['{{ session('flash_message') }}']})
+    </script>
 	<script src="{{ asset('js/app.js') }}" defer></script>
 
 	<!-- Fonts -->
