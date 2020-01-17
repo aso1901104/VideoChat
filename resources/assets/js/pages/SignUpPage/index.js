@@ -37,6 +37,7 @@ const SignUpPage = (props) => {
         <h2 className="sign-up-title">Sign Up</h2>
         <FacebookLoginButton />
         {window.facebookLoginError && ErrorMessages(window.facebookLoginError)}
+        <h2 className="or-text">OR</h2>
         <h3 className="input-title">Name</h3>
         <div className="input-wrapper">
           <input className="sign-up-input" type="text" placeholder="氏名" value={name} onChange={e => setName(e.target.value)} />
