@@ -4,12 +4,14 @@ import { setCurrentUser } from '../../actions/authen'
 
 const RequireAuthWrapper = WrapperedComponent => {
   const Component = () => class extends React.Component {
-    constructor(props) {
+    constructor (props) {
       super(props)
     }
-    componentWillMount() {
+
+    componentWillMount () {
       this.props.currentUser === null && this.props.history.push('/login')
     }
+
     render () {
       return (
         <WrapperedComponent {...this.props} />
@@ -20,7 +22,7 @@ const RequireAuthWrapper = WrapperedComponent => {
 }
 const mapStateToProps = state => {
   return {
-    currentUser: state.authen.currentUser,
+    currentUser: state.authen.currentUser
   }
 }
-export default RequireAuthWrapper;
+export default RequireAuthWrapper
