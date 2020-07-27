@@ -11,9 +11,9 @@ jobs:
           - DB_USERNAME: root
 
       - image: circleci/mysql:5.7.22
-         environment:
-           - MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
-           - MYSQL_ROOT_HOST: '%'
+        environment:
+          - MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+          - MYSQL_ROOT_HOST: '%'
 
     steps:
       - checkout
