@@ -16,7 +16,14 @@ jobs:
       # for database intensive operations.
       # - image: circleci/mysql:5.7-ram
       #
-      # - image: redis:2.8.19
+      - image: redis:2.8.19
+      - image: circleci/mysql:8.0.20-ram
+      command: mysqld --default-authentication-plugin=mysql_native_password
+      environment:
+        MYSQL_USER: forge
+        MYSQL_DATABASE: forge
+        MYSQL_ROOT_PASSWORD: ''
+        MYSQL_PASSWORD: 'forge'
 
     steps:
       - checkout
@@ -49,7 +56,7 @@ jobs:
             - node_modules
 
       # prepare the database
-      - run: php artisan migrate --env=test --force
+      - run: php artisan migrate --env=testing --database=mysql --force
 
       # run tests with phpunit or codecept
       #- run: ./vendor/bin/phpunit
